@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="YALA_Gantt_Diagram" company="Software I - Jake Allen, Evan Berryman, Sam Hobbs" webLink="https://github.com/jake-allen/YALA" view-date="2020-09-27" view-index="1" gantt-divider-location="300" resource-divider-location="300" version="2.8.11" locale="en_US">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Name" width="153" order="0"/>
+        <field id="tpd4" name="Begin date" width="63" order="1"/>
+        <field id="tpd5" name="End date" width="63" order="2"/>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Name" width="209" order="0"/>
+        <field id="1" name="Default role" width="85" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="0" name="Inception" color="#8cb6ce" meeting="false" start="2020-09-07" duration="15" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true">
+            <task id="5" name="Vision of the Project" color="#8cb6ce" meeting="false" start="2020-09-07" duration="15" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="10" name="Project Plan" color="#8cb6ce" meeting="false" start="2020-09-07" duration="5" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="7" name="Use Cases &amp; Scenarios" color="#8cb6ce" meeting="false" start="2020-09-11" duration="9" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="12" name="Relevant Diagrams" color="#8cb6ce" meeting="false" start="2020-09-11" duration="11" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="9" name="Requirement Analysis" color="#8cb6ce" meeting="false" start="2020-09-11" duration="11" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="11" name="Glossary" color="#8cb6ce" meeting="false" start="2020-09-23" duration="3" complete="100" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="55" name="Iteration I Presentation" color="#8cb6ce" meeting="false" start="2020-09-25" duration="2" complete="0" thirdDate="2020-09-11" thirdDate-constraint="0" expand="true">
+            <task id="62" name="Finalize Presentation" color="#8cb6ce" meeting="false" start="2020-09-25" duration="1" complete="0" thirdDate="2020-09-17" thirdDate-constraint="0" expand="true"/>
+            <task id="63" name="Present" color="#8cb6ce" meeting="false" start="2020-09-28" duration="1" complete="0" thirdDate="2020-09-17" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="2" name="Elaboration" meeting="false" start="2020-09-28" duration="12" complete="0" expand="true">
+            <task id="13" name="Analytical Model" color="#8cb6ce" meeting="false" start="2020-09-28" duration="4" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="14" name="Software Architecture Description" color="#8cb6ce" meeting="false" start="2020-10-05" duration="2" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="16" name="Architecture Prototype" color="#8cb6ce" meeting="false" start="2020-09-28" duration="8" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="18" name="Refine Architecture Prototype" color="#8cb6ce" meeting="false" start="2020-09-28" duration="10" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="15" name="Design Model" color="#8cb6ce" meeting="false" start="2020-10-09" duration="3" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="57" name="Iteration II Presentation" meeting="false" start="2020-10-08" duration="3" complete="0" expand="true">
+            <task id="79" name="Prepare Presentation" color="#8cb6ce" meeting="false" start="2020-10-08" duration="2" complete="0" thirdDate="2020-09-28" thirdDate-constraint="0" expand="true"/>
+            <task id="80" name="Present" color="#8cb6ce" meeting="false" start="2020-10-12" duration="1" complete="0" thirdDate="2020-09-10" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="3" name="Construction" meeting="false" start="2020-10-06" duration="22" complete="0" expand="true">
+            <task id="20" name="Design Model" meeting="false" start="2020-10-06" duration="9" complete="0" expand="true"/>
+            <task id="19" name="Software Components and Subsystems" color="#8cb6ce" meeting="false" start="2020-10-08" duration="13" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="24" name="Integration" meeting="false" start="2020-10-14" duration="13" complete="0" expand="true"/>
+            <task id="23" name="Test Planning" color="#8cb6ce" meeting="false" start="2020-10-20" duration="12" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="26" name="Documentation" meeting="false" start="2020-10-30" duration="4" complete="0" expand="true">
+                <task id="27" name="User Manual" meeting="false" start="2020-10-30" duration="3" complete="0" expand="true"/>
+                <task id="28" name="Installation Guide" meeting="false" start="2020-11-02" duration="3" complete="0" expand="true"/>
+            </task>
+        </task>
+        <task id="4" name="Transition" meeting="false" start="2020-10-26" duration="23" complete="0" expand="true">
+            <task id="29" name="Software Increment" color="#8cb6ce" meeting="false" start="2020-10-26" duration="12" complete="0" thirdDate="2020-09-22" thirdDate-constraint="0" expand="true"/>
+            <task id="31" name="Software Maintenance" meeting="false" start="2020-10-26" duration="19" complete="0" expand="true"/>
+            <task id="32" name="Test Reporting" meeting="false" start="2020-10-26" duration="17" complete="0" expand="true"/>
+            <task id="33" name="Statistics/User Monitoring" meeting="false" start="2020-11-06" duration="8" complete="0" expand="true"/>
+            <task id="34" name="User Feedback" meeting="false" start="2020-11-10" duration="6" complete="0" expand="true"/>
+            <task id="35" name="Performance Analysis" meeting="false" start="2020-11-11" duration="6" complete="0" expand="true"/>
+            <task id="36" name="Adaptations" meeting="false" start="2020-11-17" duration="7" complete="0" expand="true"/>
+        </task>
+        <task id="60" name="Iteration III Presentation" meeting="false" start="2020-11-26" duration="2" complete="0" expand="true">
+            <task id="88" name="Prepare Presentation" color="#8cb6ce" meeting="false" start="2020-11-26" duration="1" complete="0" thirdDate="2020-10-02" thirdDate-constraint="0" expand="true"/>
+            <task id="87" name="Present" color="#8cb6ce" meeting="false" start="2020-11-27" duration="1" complete="0" thirdDate="2020-10-02" thirdDate-constraint="0" expand="true"/>
+        </task>
+    </tasks>
+    <resources>
+        <resource id="0" name="Evan Berryman" function="1" contacts="" phone=""/>
+        <resource id="1" name="Jake Allen" function="2" contacts="" phone=""/>
+        <resource id="2" name="Sam Hobbs" function="3" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="62" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="62" resource-id="1" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="62" resource-id="2" function="Default:0" responsible="false" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles>
+        <role id="1" name="Leader / Engineer"/>
+        <role id="2" name="Project Manager / Engineer"/>
+        <role id="3" name="Engineer"/>
+    </roles>
+</project>
