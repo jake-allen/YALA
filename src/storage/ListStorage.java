@@ -11,4 +11,10 @@ public class ListStorage {
 		// create empty vector
 		lists = new Vector<List>();
 	}
+	
+	// TODO addList()
+	
+	// TODO addItemToList()
+	
+	// TODO create storage in database (iteration III)
 }

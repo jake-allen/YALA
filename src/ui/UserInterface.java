@@ -2,123 +2,89 @@ package ui;
 
 
 import javax.swing.*;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.util.Vector;
 
 import constructs.*;
-import storage.*;
+// import storage.*;
 
 public class UserInterface{
 	
 	static boolean loggedIn = false;
 	static User user;
 	Vector<Store> stores;
+	
 	static JFrame frame;
-	JPanel cards;
 	
+	static JPanel cards;
+	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the list/search display)
+	final static String NEWUSER = "New User Card"; // card that shows newUserMenuBar to select create account or log in
+	final static String CREATEACCOUNT = "Create Account Card"; // card for creating account TODO validate input
+	final static String LOGIN = "Log in User Card"; // card for logging in TODO validate user-name and password and find user
 	
-	public static void temporaryStarterFunction() {
-		// create user and log in
-		String id = "Jake Allen";
-		String email = "jake@jakeallen.com";
-		String password = "192182310";
-		user = new User(id, email, password);
-		loggedIn = true;
-	}
-	
-	
-	public static JPanel createAccount() {
-		// create the text fields
-		JTextField usernameField = new  JTextField(20);
-		JTextField emailField = new JTextField(20);
+	public static JPanel loginCard() {
+		// create text fields
+		JTextField idField = new JTextField(20);
 		JPasswordField passwordField = new JPasswordField(20);
 		// add labels
-		JLabel usernameLabel = new JLabel("Enter username: ");
-		JLabel emailLabel = new JLabel("Enter email: ");
+		JLabel idLabel = new JLabel("Enter username or email: ");
 		JLabel passwordLabel = new JLabel("Enter password: ");
-		usernameLabel.setLabelFor(usernameField);
-		emailLabel.setLabelFor(emailField);
+		idLabel.setLabelFor(idField);
 		passwordLabel.setLabelFor(passwordField);
 		// create panel and add components
-		JPanel textPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		textPane.add(usernameLabel);
-		textPane.add(usernameField);
-		textPane.add(emailLabel);
-		textPane.add(emailField);
-		textPane.add(passwordLabel);
-		textPane.add(passwordField);
+		JPanel loginPanel = new JPanel();
+		loginPanel.add(idLabel);
+		loginPanel.add(idField);
+		loginPanel.add(passwordLabel);
+		loginPanel.add(passwordField);
 		// create buttons
 		JButton submitButton = new JButton("Submit");
 		JButton cancelButton = new JButton("Cancel");
-		// submit create account action listener
+		// submit login action listener
 		submitButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
-				// get the password, user-name, and email entered
+				// get user-name and password that the user entered
+				String username = idField.getText();
 				String password = new String(passwordField.getPassword());
-				String username = usernameField.getText();
-				String email = emailField.getText();
 				
-				// validate input TODO
+				// validate and see if the login is correct TODO
+						
+				// refresh frame to show the user-name of the logged in user
+				frame.dispose();
+				createAndShowGUI();
 				
-				// create new user
-				user = new User(username, email, password);
+				// switch to the logged in card 
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGGEDIN);
 				
-				// tell UserInterface that the user is now logged in
-				loggedIn = true;
-				// remove the content pane
-				JPanel contentPane = (JPanel)frame.getContentPane();
-				contentPane.removeAll();
-				contentPane.revalidate();
-				contentPane.repaint();
+				// print for testing TODO
+				System.out.println("username: " + username);
+				System.out.println("password: " + password);
 			}
 		});
-		// cancel create account action listener
+		// cancel login action listener
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
-				// remove the content pane
-				JPanel contentPane = (JPanel)frame.getContentPane();
-				contentPane.removeAll();
-				contentPane.revalidate();
-				contentPane.repaint();
+				// switch back to the new user card 
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, NEWUSER);
 			}
 		});
 		// add buttons to the panel
-		textPane.add(submitButton);
-		textPane.add(cancelButton);
-		// return the result
-		return textPane;
-	}
-	
-	public static JPanel login() {
-		// TODO create login stuff
-		return null;
-	}
-	
-	public static void addComponents(Container pane) {
-		//temporaryStarterFunction();	
-		
-		// create card for logged in
-		JPanel userCard = new JPanel();
-		userCard.setLayout(new BorderLayout());
-		userCard.add(loggedInMenuBar(), BorderLayout.NORTH);
-		
-		// create card for new user
-		JPanel newUserCard = new JPanel();
-		newUserCard.setLayout(new BorderLayout());
-		newUserCard.add(newUserMenuBar(), BorderLayout.NORTH);
-		
+		loginPanel.add(submitButton);
+		loginPanel.add(cancelButton);
+		return loginPanel;
 	}
 	
 	public static JMenuBar loggedInMenuBar() {
@@ -127,16 +93,32 @@ public class UserInterface{
 		// create menus
 		JMenu accountMenu = new JMenu("My Account");
 		JMenu helpMenu = new JMenu("Help");
-		JMenu userDisplay = new JMenu("Welcome,  " + user.getID());
+		JMenu userDisplayMenu;
+		if(loggedIn) {
+			userDisplayMenu = new JMenu("Welcome, " + user.getID());
+		}
+		else {
+			userDisplayMenu = new JMenu("Welcome, null");
+		}
 		// add the menus to the menu bar
 		menuBar.add(accountMenu);
 		menuBar.add(helpMenu);
 		menuBar.add(Box.createHorizontalGlue());
-		menuBar.add(userDisplay);
+		menuBar.add(userDisplayMenu);
 		// create account menu items
 		JMenuItem usernameMenuItem = new JMenuItem("Change Username");
 		JMenuItem passwordMenuItem = new JMenuItem("Change Password");
 		JMenuItem logoutMenuItem = new JMenuItem("Logout");
+		// create account menu listener
+		logoutMenuItem.addActionListener(new ActionListener() {
+			// logout selected
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, NEWUSER);	
+			}
+		});
 		// add account menu items to the account menu
 		accountMenu.add(usernameMenuItem);
 		accountMenu.addSeparator();
@@ -182,14 +164,18 @@ public class UserInterface{
 			// selected login TODO
 			@Override
 			public void actionPerformed(ActionEvent e) {
-							
+				System.out.println(e.getActionCommand());
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGIN);	
 			}
 		});
 		createAccountMenuItem.addActionListener(new ActionListener() {
-			// selected create account TODO
+			// selected create account 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-							
+				System.out.println(e.getActionCommand());
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, CREATEACCOUNT);
 			}
 		});
 		// add the menu items to the menu
@@ -199,14 +185,118 @@ public class UserInterface{
 		return menuBar;
 	}
 	
+	public static JPanel createAccountCard() {
+		// create the text fields
+		JTextField usernameField = new  JTextField(20);
+		JTextField emailField = new JTextField(20);
+		JPasswordField passwordField = new JPasswordField(20);
+		// add labels
+		JLabel usernameLabel = new JLabel("Enter username: ");
+		JLabel emailLabel = new JLabel("Enter email: ");
+		JLabel passwordLabel = new JLabel("Enter password: ");
+		usernameLabel.setLabelFor(usernameField);
+		emailLabel.setLabelFor(emailField);
+		passwordLabel.setLabelFor(passwordField);
+		// create panel and add components
+		JPanel textPane = new JPanel();
+		textPane.add(usernameLabel);
+		textPane.add(usernameField);
+		textPane.add(emailLabel);
+		textPane.add(emailField);
+		textPane.add(passwordLabel);
+		textPane.add(passwordField);
+		// create buttons
+		JButton submitButton = new JButton("Submit");
+		JButton cancelButton = new JButton("Cancel");
+		// submit create account action listener
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+				// get the password, user-name, and email entered
+				String password = new String(passwordField.getPassword());
+				String username = usernameField.getText();
+				String email = emailField.getText();
+				
+				// validate input TODO
+				
+				// create new user
+				user = new User(username, email, password);
+
+				// tell UserInterface that the user is now logged in
+				loggedIn = true;
+				
+				// refresh frame to show the user-name of the logged in user
+				frame.dispose();
+				createAndShowGUI();
+				
+				// switch to the logged in card
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGGEDIN);
+				
+				// print for testing TODO
+				System.out.println("user: " + user.getID());
+				System.out.println("email: " + user.getEmail());
+			}
+		});
+		// cancel create account action listener
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+				// switch back to the new user card 
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, NEWUSER);
+			}
+		});
+		// add buttons to the panel
+		textPane.add(submitButton);
+		textPane.add(cancelButton);
+		// return the result
+		return textPane;
+	}
+	
+	// TODO tutorial said to add this, might not be doing anything
+	public void itemStateChanged(ItemEvent evt) {
+	    CardLayout cl = (CardLayout)(cards.getLayout());
+	    cl.show(cards, (String)evt.getItem());
+	}
+	
+	public static void addComponents(Container pane) {
+		// create card for new user
+		JPanel newUserCard = new JPanel();
+		newUserCard.setLayout(new BorderLayout());
+		newUserCard.add(newUserMenuBar(), BorderLayout.NORTH);
+		
+		// create card for creating an account
+		JPanel createAccountCard = createAccountCard(); 
+		// TODO fix layout 
+		
+		// create card for logging in 
+		JPanel loginCard = loginCard();
+		
+		// create card for logged in
+		JPanel userCard = new JPanel();
+		userCard.setLayout(new BorderLayout());
+		userCard.add(loggedInMenuBar(), BorderLayout.NORTH);
+		
+		// create cards and add them
+		cards = new JPanel(new CardLayout());
+		cards.add(newUserCard, NEWUSER);
+		cards.add(createAccountCard, CREATEACCOUNT);
+		cards.add(userCard, LOGGEDIN);
+		cards.add(loginCard, LOGIN);
+		
+		// add cards to the pane
+		pane.add(cards, BorderLayout.CENTER);
+	}
+	
 	private static void createAndShowGUI() {
 		// set up window
 		frame = new JFrame("YALA - Yet Another List App");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
 		addComponents(frame.getContentPane());
-		// set up layout
-		frame.getContentPane().setLayout(new BorderLayout());
 		// finish set up and display
 		frame.pack();
 		frame.setVisible(true);
@@ -217,7 +307,7 @@ public class UserInterface{
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | 
-				IllegalAccessException | UnsupportedLookAndFeelException e) {
+				 IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		// schedule job; create and show the GUI

@@ -29,5 +29,11 @@ public class User {
 		this.email = email;
 		this.password = password; // TODO needs encryption
 		lists = new ListStorage();
+		// TODO store user in database
 	}
+	
+	// TODO changeID
+	// TODO changeEmail
+	// TODO changePassword
+	// ^ all should update the database
 }
