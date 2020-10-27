@@ -1,10 +1,9 @@
 package constructs;
 
 import storage.ListStorage;
-import storage.UserStorage;
 
 public class User {
-	String id; // unique username / display name
+	String id; // unique user-name / display name
 	String email;
 	String password; // encrypted
 	ListStorage lists;
@@ -33,8 +32,7 @@ public class User {
 		this.id = id;
 		this.email = email;
 		this.password = password; // TODO needs encryption
-		lists = new ListStorage();
-		
+		lists = new ListStorage(this.email);
 	}
 	
 	// TODO changeID

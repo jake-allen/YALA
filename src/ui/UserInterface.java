@@ -67,7 +67,7 @@ public class UserInterface{
 					cl.show(cards, LOGGEDIN);
 				}
 				else {
-					System.out.println("ERROR: invalid login"); // TODO
+					System.out.println("ERROR: invalid login"); // TODO ACCOUNT
 					// switch back to the new user card 
 					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, NEWUSER);
@@ -238,7 +238,7 @@ public class UserInterface{
 					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, LOGGEDIN);
 					
-					// print for testing TODO
+					// print for testing TODO ACCOUNT
 					System.out.println("user: " + user.getID());
 					System.out.println("email: " + user.getEmail());
 				}

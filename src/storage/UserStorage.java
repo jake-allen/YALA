@@ -13,7 +13,12 @@ import java.util.Vector;
 import constructs.User;
 
 public class UserStorage {
+	
 	Vector<String> users;
+	// Vector<username,email,password>
+	
+	Map<String, String> passMap;
+	// Map<email+password, user-name> 
 	
 	final String storageFile = "users.txt";
 	// format
@@ -21,63 +26,55 @@ public class UserStorage {
 		// ... 
 		// user-name,email,password
 	
+	// initialize the vector, map, load existing users into them
 	public UserStorage(){
-
+		users = new Vector<String>();
+		passMap = new HashMap<String, String>();
+		loadUsers();
 	}
 	
 	// loads users and checks if the given user exists
 	public User getUser(String email, String password) {
-		// load users from file
-		loadUsers();
-		// create a map for searching the users
-		Map<String, String> map = new HashMap<String, String>();
-		
-		for(String user: users) {
-			
-			String[] split = user.split(",");
-			// split[0] = user-name
-			// split[1] = email
-			// split[2] = password
-			
-			map.put(split[1] + split[2], split[0]);
-		}
-		// return null if password is invalid
-		if(map.containsKey(email + password)) {
-			String user = map.get(email + password);
-			return new User(user, email, password);
+		if(passMap.containsKey(email + password)) {
+			String username = passMap.get(email + password);
+			return new User(username, email, password);
 		}
 		else {
-			// return the corresponding user if it works
 			return null;
 		}
 	}
 	
-	// load users from the storage file TODO update later to database
+	// load users from the storage file into the vector, map
 	void loadUsers() {
-		
-		// open scanner
+		// load users into the vector
 		Scanner scanner = null;
 		try {
 			scanner = new Scanner(new File(storageFile));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		// read user information from the scanner
 		if(scanner.hasNextLine()) {
 			// read the file lines
 			String line;
-			int i = 0;
 			while(scanner.hasNextLine()) {
 				line = scanner.nextLine();
+				// add each line
 				users.add(line);
-				i++;
 			}
 		}
 		scanner.close();
+		// load users into the map 
+		for(String str: users) {
+			String[] split = str.split(",");
+				// split[0] = username, split[1] = email, split[2] = password
+			passMap.put(split[1] + split[2], split[0]);
+		}
 	}
 	
-	// adds user to the storage file
+	// add user to the storage file, vector, and map
 	public void addUser(User user) {
+		// add user to the storage file
 		String userString = "\n" + user.getID() + "," + user.getEmail() + "," + user.getPassword();
 		FileWriter fw = null;
 		try {
@@ -96,5 +93,9 @@ public class UserStorage {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// add user to the vector<user-name,email,password>
+		userString = user.getID() + "," + user.getEmail() + "," + user.getPassword();
+		users.add(userString);
+		// add user to the passMap<email+password, user-name> 
 	}
 }
