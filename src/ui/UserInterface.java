@@ -19,13 +19,12 @@ public class UserInterface{
 	
 	static boolean loggedIn = false;
 	static User user;
-	Vector<Stores> stores;
+	Vector<Store> stores;
 	
-	public static void loadStore() {
-		
-	}
+	
 	
 	public static void temporaryStarterFunction() {
+		// create user and log in
 		String id = "Jake Allen";
 		String email = "jake@jakeallen.com";
 		String password = "192182310";
