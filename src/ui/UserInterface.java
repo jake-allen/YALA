@@ -6,20 +6,20 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.Vector;
 
 import constructs.*;
-// import storage.*;
+import storage.*;
 
 public class UserInterface{
 	
 	static boolean loggedIn = false;
 	static User user;
 	Vector<Store> stores;
+	static UserStorage userstorage = new UserStorage();
 	
 	static JFrame frame;
 	
@@ -34,7 +34,7 @@ public class UserInterface{
 		JTextField idField = new JTextField(20);
 		JPasswordField passwordField = new JPasswordField(20);
 		// add labels
-		JLabel idLabel = new JLabel("Enter username or email: ");
+		JLabel idLabel = new JLabel("Enter email: ");
 		JLabel passwordLabel = new JLabel("Enter password: ");
 		idLabel.setLabelFor(idField);
 		passwordLabel.setLabelFor(passwordField);
@@ -53,22 +53,25 @@ public class UserInterface{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
 				// get user-name and password that the user entered
-				String username = idField.getText();
+				String email = idField.getText();
 				String password = new String(passwordField.getPassword());
-				
 				// validate and see if the login is correct TODO
-						
-				// refresh frame to show the user-name of the logged in user
-				frame.dispose();
-				createAndShowGUI();
-				
-				// switch to the logged in card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
-				cl.show(cards, LOGGEDIN);
-				
-				// print for testing TODO
-				System.out.println("username: " + username);
-				System.out.println("password: " + password);
+				if(userstorage.getUser(email, password) != null) {
+					user = userstorage.getUser(email, password);
+					loggedIn = true;
+					// refresh frame to show the user-name of the logged in user
+					frame.dispose();
+					createAndShowGUI();
+					// switch to the logged in card 
+					CardLayout cl = (CardLayout)(cards.getLayout());
+					cl.show(cards, LOGGEDIN);
+				}
+				else {
+					System.out.println("ERROR: invalid login"); // TODO
+					// switch back to the new user card 
+					CardLayout cl = (CardLayout)(cards.getLayout());
+					cl.show(cards, NEWUSER);
+				}
 			}
 		});
 		// cancel login action listener
@@ -219,24 +222,32 @@ public class UserInterface{
 				String email = emailField.getText();
 				
 				// validate input TODO
-				
-				// create new user
-				user = new User(username, email, password);
+				// password must be unique TODO
+				if(userstorage.getUser(email, password) == null) {
+					// create new user
+					user = new User(username, email, password, userstorage);
 
-				// tell UserInterface that the user is now logged in
-				loggedIn = true;
-				
-				// refresh frame to show the user-name of the logged in user
-				frame.dispose();
-				createAndShowGUI();
-				
-				// switch to the logged in card
-				CardLayout cl = (CardLayout)(cards.getLayout());
-				cl.show(cards, LOGGEDIN);
-				
-				// print for testing TODO
-				System.out.println("user: " + user.getID());
-				System.out.println("email: " + user.getEmail());
+					// tell UserInterface that the user is now logged in
+					loggedIn = true;
+					
+					// refresh frame to show the user-name of the logged in user
+					frame.dispose();
+					createAndShowGUI();
+					
+					// switch to the logged in card
+					CardLayout cl = (CardLayout)(cards.getLayout());
+					cl.show(cards, LOGGEDIN);
+					
+					// print for testing TODO
+					System.out.println("user: " + user.getID());
+					System.out.println("email: " + user.getEmail());
+				}
+				else {
+					System.out.println("ERROR: user already exists");
+					// switch back to the new user card 
+					CardLayout cl = (CardLayout)(cards.getLayout());
+					cl.show(cards, NEWUSER);
+				}	
 			}
 		});
 		// cancel create account action listener
@@ -269,11 +280,10 @@ public class UserInterface{
 		newUserCard.add(newUserMenuBar(), BorderLayout.NORTH);
 		
 		// create card for creating an account
-		JPanel createAccountCard = createAccountCard(); 
-		// TODO fix layout 
+		JPanel createAccountCard = createAccountCard();  // TODO fix layout, make standardized
 		
 		// create card for logging in 
-		JPanel loginCard = loginCard();
+		JPanel loginCard = loginCard(); // TODO fix layout, make standardized
 		
 		// create card for logged in
 		JPanel userCard = new JPanel();
@@ -294,12 +304,16 @@ public class UserInterface{
 	private static void createAndShowGUI() {
 		// set up window
 		frame = new JFrame("YALA - Yet Another List App");
+		System.out.println("UM");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
+		System.out.println("UM");
 		addComponents(frame.getContentPane());
 		// finish set up and display
+		System.out.println("UM");
 		frame.pack();
 		frame.setVisible(true);
+		System.out.println("UM");
 	}
 
 	public static void main(String[] args) {
