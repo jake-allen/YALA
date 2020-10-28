@@ -302,7 +302,7 @@ public class UserInterface{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// list clicked
-						System.out.println("list clicked");
+						System.out.println("add list clicked");
 					}
 				});
 				System.out.println("ADDING BUTTON");
@@ -313,10 +313,23 @@ public class UserInterface{
 		else {
 			
 		}
+		
+		JPanel listPanel = new JPanel();
+		JButton addListButton = new JButton("Add a List");
+		addListButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// add list clicked
+				System.out.println("list clicked");
+			}
+		});
+		listPanel.add(addListButton);
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(loggedInMenuBar(), BorderLayout.PAGE_START);
 		mainPanel.add(panel, BorderLayout.LINE_END);
+		mainPanel.add(listPanel, BorderLayout.CENTER);
 		return mainPanel;
 	}
 	
