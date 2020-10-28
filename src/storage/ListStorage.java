@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -78,6 +79,30 @@ public class ListStorage {
 		}
 	}
 	
+	public boolean hasList(String listName) {
+		// find the corresponding list
+		for(int i = 0; i < lists.size(); i++) {
+			List tempList = lists.elementAt(i);
+			System.out.println("name looking for list: -" + tempList.getName() + "--" + listName + "--");
+			if(tempList.getName().equals(listName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public void deleteList(String listName) {
+		// find the corresponding list
+		for(int i = 0; i < lists.size(); i++) {
+			List tempList = lists.elementAt(i);
+			if(tempList.getName().compareTo(listName) == 0) {
+				lists.remove(i);
+			}
+		}
+		// rewrite lists to the storage file
+		restoreLists();
+	}
+	
 	public void addList(String listName){
 		List newList = new List(listName);
 		// add list to the vector
@@ -94,9 +119,16 @@ public class ListStorage {
 	}
 	
 	void restoreLists() {
+		// remove file's content
+		try {
+			new PrintWriter(filename).close();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		// rewrite
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(filename, true);
+			fw = new FileWriter(filename);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

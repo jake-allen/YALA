@@ -10,28 +10,3 @@ CVS Mom List,3
 Plan B,1,CVS #211
 Tums,1,CVS #211
 Camel Cigarettes,1,CVS #2114
-HEBList,2
-Cabbage,1,HEB #367
-Hummus,2,HEB #367
-HEB Grandma List,3
-Bread,2,HEB #367
-Flour,1,HEB #367
-Brown Sugar,1,HEB #367
-CVS Mom List,3
-Plan B,1,CVS #211
-Tums,1,CVS #211
-Camel Cigarettes,1,CVS #211
-Temporary,0
-4
-HEBList,2
-Cabbage,1,HEB #367
-Hummus,2,HEB #367
-HEB Grandma List,3
-Bread,2,HEB #367
-Flour,1,HEB #367
-Brown Sugar,1,HEB #367
-CVS Mom List,3
-Plan B,1,CVS #211
-Tums,1,CVS #211
-Camel Cigarettes,1,CVS #2114
-temporary,0
