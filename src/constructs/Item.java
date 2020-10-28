@@ -11,4 +11,16 @@ public class Item {
 		this.name = itemName;
 		this.store = storeName;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getQuantity() {
+		return this.quantity;
+	}
+	
+	public String getStore() {
+		return this.store;
+	}
 }

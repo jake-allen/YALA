@@ -68,6 +68,7 @@ public class UserStorage {
 		for(String str: users) {
 			String[] split = str.split(",");
 				// split[0] = username, split[1] = email, split[2] = password
+			System.out.println(str);
 			passMap.put(split[1] + split[2], split[0]);
 		}
 	}
@@ -78,7 +79,7 @@ public class UserStorage {
 		String userString = "\n" + user.getID() + "," + user.getEmail() + "," + user.getPassword();
 		FileWriter fw = null;
 		try {
-			fw = new FileWriter(storageFile);
+			fw = new FileWriter(storageFile, true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -97,5 +98,6 @@ public class UserStorage {
 		userString = user.getID() + "," + user.getEmail() + "," + user.getPassword();
 		users.add(userString);
 		// add user to the passMap<email+password, user-name> 
+		passMap.put(user.getEmail() + user.getPassword(), user.getID());
 	}
 }

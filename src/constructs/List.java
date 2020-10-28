@@ -11,6 +11,14 @@ public class List {
 		items = new Vector<Item>();
 	}
 	
+	public String getName() {
+		return this.name;
+	}
+	
+	public Vector<Item> getItems(){
+		return this.items;
+	}
+	
 	// item-name, item-quantity, item-store-name
 	public void addItem(String itemName, String itemQuantity, String storeName) {
 		// add item to the vector

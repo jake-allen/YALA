@@ -19,7 +19,7 @@ public class UserInterface{
 	static boolean loggedIn = false;
 	static User user;
 	Vector<Store> stores;
-	static UserStorage userstorage = new UserStorage();
+	static UserStorage userStorage;
 	
 	static JFrame frame;
 	
@@ -56,8 +56,8 @@ public class UserInterface{
 				String email = idField.getText();
 				String password = new String(passwordField.getPassword());
 				// validate and see if the login is correct TODO
-				if(userstorage.getUser(email, password) != null) {
-					user = userstorage.getUser(email, password);
+				if(userStorage.getUser(email, password) != null) {
+					user = userStorage.getUser(email, password);
 					loggedIn = true;
 					// refresh frame to show the user-name of the logged in user
 					frame.dispose();
@@ -223,9 +223,10 @@ public class UserInterface{
 				
 				// validate input TODO
 				// password must be unique TODO
-				if(userstorage.getUser(email, password) == null) {
-					// create new user
-					user = new User(username, email, password, userstorage);
+				if(userStorage.getUser(email, password) == null) {
+					// create new user and add it
+					user = new User(username, email, password);
+					userStorage.addUser(user);
 
 					// tell UserInterface that the user is now logged in
 					loggedIn = true;
@@ -238,7 +239,7 @@ public class UserInterface{
 					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, LOGGEDIN);
 					
-					// print for testing TODO ACCOUNT
+					// print for testing 
 					System.out.println("user: " + user.getID());
 					System.out.println("email: " + user.getEmail());
 				}
@@ -302,6 +303,7 @@ public class UserInterface{
 	}
 	
 	private static void createAndShowGUI() {
+		userStorage = new UserStorage();
 		// set up window
 		frame = new JFrame("YALA - Yet Another List App");
 		System.out.println("UM");
