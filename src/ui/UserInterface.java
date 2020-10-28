@@ -342,8 +342,21 @@ public class UserInterface{
 				popUpAddFrame.setVisible(true);
 			}
 		});
+		JButton copyListButton = new JButton("Copy/Duplicate a List");
+		copyListButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// delete list clicked
+				System.out.println("copy a list clicked");
+				popUpAddFrame = new JFrame("Copy a List");
+				popUpAddFrame.add(copyListTextField());
+				popUpAddFrame.pack();
+				popUpAddFrame.setVisible(true);
+			}
+		});
 		listPanel.add(deleteListButton);
 		listPanel.add(addListButton);
+		listPanel.add(copyListButton);`56
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -428,6 +441,67 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Submit delete list pressed " + nameField.getText());
+				// delete list
+				ListStorage storage = user.getListStorage();
+				if(storage.hasList(nameField.getText())) {
+					storage.deleteList(nameField.getText());
+				}
+				else {
+					System.out.println("ERROR: list does not exist");
+				}
+				// close add list frame
+				popUpAddFrame.dispose();
+				// refresh logged-in frame and components
+				frame.dispose();
+				createAndShowGUI();
+				// switch to the logged in card 
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGGEDIN);
+			}
+		});
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cancel add list pressed");
+				popUpAddFrame.dispose();
+			}
+		});
+		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(labelPane, BorderLayout.CENTER);
+		mainPanel.add(fieldPane, BorderLayout.LINE_END);
+		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
+		
+		return mainPanel;
+	}
+	
+	public static JPanel copyListTextField() {
+		JPanel mainPanel = new JPanel();
+		
+		JLabel nameLabel = new JLabel("List name to copy: ");
+		JFormattedTextField nameField = new JFormattedTextField();
+		nameField.setColumns(20);
+		
+		JLabel newNameLabel = new JLabel("New name of copied list: ");
+		JFormattedTextField newNameField = new JFormattedTextField();
+		newNameField.setColumns(20);
+		
+		JPanel labelPane = new JPanel(new GridLayout(0, 1));
+		labelPane.add(nameLabel);
+		
+		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
+		fieldPane.add(nameField);
+		
+		JPanel buttonPane = new JPanel();
+		
+		JButton submitButton = new JButton("Submit");
+		JButton cancelButton = new JButton("Cancel");
+		buttonPane.add(submitButton);
+		buttonPane.add(cancelButton);
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Submit copy list pressed " + nameField.getText());
 				// add list
 				ListStorage storage = user.getListStorage();
 				if(storage.hasList(nameField.getText())) {
@@ -460,6 +534,8 @@ public class UserInterface{
 		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
 		
 		return mainPanel;
+		
+		return null;
 	}
 	
 	public static void addComponents(Container pane) {
