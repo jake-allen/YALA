@@ -27,6 +27,10 @@ public class List {
 		return false;
 	}
 	
+	public void addItem(Item item) {
+		items.add(item);
+	}
+	
 	// item-name, item-quantity, item-store-name
 	public void addItem(String itemName, String itemQuantity, String storeName) {
 		// add item to the vector

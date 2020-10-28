@@ -131,13 +131,54 @@ public class ListStorage {
 		}
 	}
 	
-	public void addItemToList(int listIndex, String itemName, String itemQuantity, String storeName) {
+	public void addItemToList(String listName, Item item) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.addItem(item);
+			}
+			return;
+		}
+	}
+	
+	public void addItemtoList(int index, Item item) {
+		lists.elementAt(index).addItem(item);
+	}
+	
+	public void addItemToList(int index, String itemName, String itemQuantity, String storeName) {
 		// add item to list
-		lists.elementAt(listIndex).addItem(itemName, itemQuantity, storeName);
+		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
 		// rewrite lists to storage file
 		restoreLists();
 	}
 	
+	public void addItemToList(int index, String itemName, int itemQuantity, String storeName) {
+		// add item to list
+		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
+		// rewrite lists to storage file
+		restoreLists();
+	}
+	
+	public void addItemToList(String listName, String itemName, int itemQuantity, String storeName) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.addItem(itemName, itemQuantity, storeName);
+			}
+			return;
+		}
+	}
+	
+	public void addItemToList(String listName, String itemName, String itemQuantity, String storeName) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.addItem(itemName, itemQuantity, storeName);
+			}
+			return;
+		}
+	}
+			
 	void restoreLists() {
 		// remove file's content
 		try {
