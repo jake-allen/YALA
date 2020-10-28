@@ -178,6 +178,48 @@ public class ListStorage {
 			return;
 		}
 	}
+	
+	public void deleteListItem(int index, String itemName, String itemQuantity, String storeName) {
+		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
+	}
+	
+	public void deleteListItem(int index, String itemName, int itemQuantity, String storeName) {
+		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
+	}
+	
+	public void deleteListItem(int index, Item item) {
+		lists.elementAt(index).removeItem(item);
+	}
+	
+	public void deleteListItem(String listName, Item item) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.removeItem(item);
+			}
+			return;
+		}
+	}
+	
+	public void deleteListItem(String listName, String itemName, String itemQuantity, String storeName) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.removeItem(itemName, itemQuantity, storeName);
+			}
+			return;
+		}
+	}
+	
+	public void deleteListItem(String listName, String itemName, int itemQuantity, String storeName) {
+		for(int i = 0; i < lists.size(); i++) {
+			List temp = lists.elementAt(i);
+			if(temp.getName() == listName) {
+				temp.removeItem(itemName, itemQuantity, storeName);
+			}
+			return;
+		}
+	}
 			
 	void restoreLists() {
 		// remove file's content
