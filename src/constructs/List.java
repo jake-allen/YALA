@@ -26,18 +26,23 @@ public class List {
 		items.add(new Item(itemName, itemQuantity, storeName));
 	}
 	
+	public void addItem(String itemName, int itemQuantity, String storeName) {
+		// add item to the vector
+		items.add(new Item(itemName, itemQuantity, storeName));
+	}
+	
 	public void crossOff(Item i) {	//should there be protections?
 		int index;
 		if(items.contains(i)) {	//must exist within items
 			index = items.indexOf(i);
-			items.get(index).quantity = 0;
+			items.get(index).crossOff();
 		}
 	}
 	public void uncrossOff(Item i) {
 		int index;
 		if(items.contains(i)) {	//must exist within items
 			index = items.indexOf(i);
-			items.get(index).quantity = 1;
+			items.get(index).uncross();
 		}		
 	}
 	public void removeItem(Item i) {

@@ -354,9 +354,10 @@ public class UserInterface{
 				popUpAddFrame.setVisible(true);
 			}
 		});
+		
 		listPanel.add(deleteListButton);
 		listPanel.add(addListButton);
-		listPanel.add(copyListButton);`56
+		listPanel.add(copyListButton);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
@@ -478,19 +479,21 @@ public class UserInterface{
 	public static JPanel copyListTextField() {
 		JPanel mainPanel = new JPanel();
 		
-		JLabel nameLabel = new JLabel("List name to copy: ");
+		JLabel nameLabel = new JLabel("List to copy: ");
 		JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
 		
-		JLabel newNameLabel = new JLabel("New name of copied list: ");
+		JLabel newNameLabel = new JLabel("Name of new list: ");
 		JFormattedTextField newNameField = new JFormattedTextField();
 		newNameField.setColumns(20);
 		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		labelPane.add(nameLabel);
+		labelPane.add(newNameLabel);
 		
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(nameField);
+		fieldPane.add(newNameField);
 		
 		JPanel buttonPane = new JPanel();
 		
@@ -505,7 +508,8 @@ public class UserInterface{
 				// add list
 				ListStorage storage = user.getListStorage();
 				if(storage.hasList(nameField.getText())) {
-					storage.deleteList(nameField.getText());
+					// duplicate list with new name
+					storage.copyList(nameField.getText(), newNameField.getText());
 				}
 				else {
 					System.out.println("ERROR: list does not exist");
@@ -523,7 +527,7 @@ public class UserInterface{
 		cancelButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Cancel add list pressed");
+				System.out.println("Cancel copy list pressed");
 				popUpAddFrame.dispose();
 			}
 		});
@@ -535,7 +539,6 @@ public class UserInterface{
 		
 		return mainPanel;
 		
-		return null;
 	}
 	
 	public static void addComponents(Container pane) {

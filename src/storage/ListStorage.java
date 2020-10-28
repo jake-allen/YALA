@@ -99,6 +99,7 @@ public class ListStorage {
 			List tempList = lists.elementAt(i);
 			if(tempList.getName().equals(listName)) {
 				lists.remove(i);
+				break;
 			}
 		}
 		// rewrite lists to the storage file
@@ -111,6 +112,23 @@ public class ListStorage {
 		lists.add(newList);
 		// rewrite lists to the storage file
 		restoreLists();
+	}
+	
+	public void copyList(String listName, String newListName) {
+		// find the corresponding list
+		for(int i = 0; i < lists.size(); i++) {
+			List tempList = lists.elementAt(i);
+			if(tempList.getName().equals(listName)) {
+				List newList = new List(newListName);
+				for(int j = 0; j < tempList.getItems().size(); j++) {
+					Item tempItem = tempList.getItems().elementAt(j);
+					newList.addItem(tempItem.getName(), tempItem.getQuantity(), tempItem.getStore());
+				}
+				lists.add(newList);
+				restoreLists();
+				break;
+			}
+		}
 	}
 	
 	public void addItemToList(int listIndex, String itemName, String itemQuantity, String storeName) {

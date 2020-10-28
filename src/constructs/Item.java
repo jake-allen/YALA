@@ -11,6 +11,12 @@ public class Item {
 		this.store = storeName;
 	}
 	
+	Item(String itemName, int quantity, String storeName){
+		this.quantity = quantity;
+		this.name = itemName;
+		this.store = storeName;
+	}
+	
 	//Sam added this
 	@Override
 	public int hashCode() {
@@ -44,6 +50,14 @@ public class Item {
 		return true;
 	}
 	
+	public void crossOff() {
+		this.quantity *= -1;
+	}
+	
+	public void uncross() {
+		this.quantity *= -1;
+	}
+	
 	public String getName() {
 		return this.name;
 	}
@@ -57,7 +71,7 @@ public class Item {
 	}
 	
 	public boolean isCrossedOff(){
-		if(quantity == 0){
+		if(quantity < 0){
 			return true;
 		}
 		return false;

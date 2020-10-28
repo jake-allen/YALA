@@ -1,4 +1,4 @@
-3
+4
 HEBList,2
 Cabbage,1,HEB #367
 Hummus,2,HEB #367
@@ -10,3 +10,6 @@ CVS Mom List,3
 Plan B,1,CVS #211
 Tums,1,CVS #211
 Camel Cigarettes,1,CVS #2114
+New HEB List,2
+Cabbage,1,HEB #367
+Hummus,2,HEB #367
