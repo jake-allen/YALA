@@ -20,6 +20,10 @@ public class User {
 		return this.password;
 	}
 	
+	public ListStorage getListStorage() {
+		return this.lists;
+	}
+	
 	public void setID(String id) {
 		this.id = id;
 	}

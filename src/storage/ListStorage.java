@@ -20,6 +20,10 @@ public class ListStorage {
 		// listname,itemAmount
 		// item-name,item-quantity,item-store-name
 	
+	public Vector<List> getLists() {
+		return this.lists;
+	}
+	
 	public ListStorage(String email) {
 		filename = email + ".txt";
 		// create empty vector

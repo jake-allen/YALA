@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -118,6 +119,9 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
+				// logout
+				loggedIn = false;
+				// switch to a not logged in card
 				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, NEWUSER);	
 			}
@@ -274,6 +278,48 @@ public class UserInterface{
 	    cl.show(cards, (String)evt.getItem());
 	}
 	
+	public static JPanel loggedInCard() {
+		JPanel panel = new JPanel();		
+		
+		if(loggedIn) {			
+			Vector<List> lists = user.getListStorage().getLists();
+			
+			// print lists and items for debugging
+			for(int i = 0; i < lists.size(); i++) {
+				List list = lists.elementAt(i);
+				Vector<Item> items = list.getItems();
+				System.out.println("list: " + i + ", " + list.getName());
+				for(int j = 0; j < items.size(); j++) {
+					Item item = items.elementAt(j);
+					System.out.println(item.getName() + " " + item.getQuantity() + " " + item.getStore());
+				}
+			}
+			
+			for(int i = 0; i < lists.size(); i++) {
+				List list = lists.elementAt(i);
+				JButton listButton = new JButton(list.getName());
+				listButton.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// list clicked
+						System.out.println("list clicked");
+					}
+				});
+				System.out.println("ADDING BUTTON");
+				panel.add(listButton);
+			}
+			
+		}
+		else {
+			
+		}
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(loggedInMenuBar(), BorderLayout.PAGE_START);
+		mainPanel.add(panel, BorderLayout.LINE_END);
+		return mainPanel;
+	}
+	
 	public static void addComponents(Container pane) {
 		// create card for new user
 		JPanel newUserCard = new JPanel();
@@ -287,9 +333,7 @@ public class UserInterface{
 		JPanel loginCard = loginCard(); // TODO fix layout, make standardized
 		
 		// create card for logged in
-		JPanel userCard = new JPanel();
-		userCard.setLayout(new BorderLayout());
-		userCard.add(loggedInMenuBar(), BorderLayout.NORTH);
+		JPanel userCard = loggedInCard(); 
 		
 		// create cards and add them
 		cards = new JPanel(new CardLayout());
@@ -306,16 +350,12 @@ public class UserInterface{
 		userStorage = new UserStorage();
 		// set up window
 		frame = new JFrame("YALA - Yet Another List App");
-		System.out.println("UM");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
-		System.out.println("UM");
 		addComponents(frame.getContentPane());
 		// finish set up and display
-		System.out.println("UM");
 		frame.pack();
 		frame.setVisible(true);
-		System.out.println("UM");
 	}
 
 	public static void main(String[] args) {
