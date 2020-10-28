@@ -50,6 +50,10 @@ public class Item {
 		return true;
 	}
 	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
 	public void crossOff() {
 		this.quantity *= -1;
 	}

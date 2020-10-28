@@ -1,2 +1,3 @@
 jake,jake@jakeallen.com,password
 evan,evanberryman@baylor.edu,evanpassword
+new_account,new@gmail.com,password
