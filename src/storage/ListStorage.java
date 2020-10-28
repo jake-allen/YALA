@@ -78,7 +78,7 @@ public class ListStorage {
 		}
 	}
 	
-	void addList(int listIndex, String listName){
+	public void addList(String listName){
 		List newList = new List(listName);
 		// add list to the vector
 		lists.add(newList);
@@ -86,7 +86,7 @@ public class ListStorage {
 		restoreLists();
 	}
 	
-	void addItemToList(int listIndex, String itemName, String itemQuantity, String storeName) {
+	public void addItemToList(int listIndex, String itemName, String itemQuantity, String storeName) {
 		// add item to list
 		lists.elementAt(listIndex).addItem(itemName, itemQuantity, storeName);
 		// rewrite lists to storage file

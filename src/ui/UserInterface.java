@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -23,6 +24,7 @@ public class UserInterface{
 	static UserStorage userStorage;
 	
 	static JFrame frame;
+	static JFrame popUpAddFrame;
 	
 	static JPanel cards;
 	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the list/search display)
@@ -302,7 +304,8 @@ public class UserInterface{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// list clicked
-						System.out.println("add list clicked");
+						String command = ((JButton) e.getSource()).getActionCommand();
+						System.out.println(command + " list clicked");
 					}
 				});
 				System.out.println("ADDING BUTTON");
@@ -313,7 +316,7 @@ public class UserInterface{
 		else {
 			
 		}
-		
+
 		JPanel listPanel = new JPanel();
 		JButton addListButton = new JButton("Add a List");
 		addListButton.addActionListener(new ActionListener() {
@@ -321,6 +324,10 @@ public class UserInterface{
 			public void actionPerformed(ActionEvent e) {
 				// add list clicked
 				System.out.println("list clicked");
+				popUpAddFrame = new JFrame("Add List");
+				popUpAddFrame.add(addListTextField());
+				popUpAddFrame.pack();
+				popUpAddFrame.setVisible(true);
 			}
 		});
 		listPanel.add(addListButton);
@@ -330,6 +337,58 @@ public class UserInterface{
 		mainPanel.add(loggedInMenuBar(), BorderLayout.PAGE_START);
 		mainPanel.add(panel, BorderLayout.LINE_END);
 		mainPanel.add(listPanel, BorderLayout.CENTER);
+		return mainPanel;
+	}
+	
+	public static JPanel addListTextField() {
+		JPanel mainPanel = new JPanel();
+		
+		JLabel nameLabel = new JLabel("List name: ");
+		JFormattedTextField nameField = new JFormattedTextField();
+		nameField.setColumns(20);
+		
+		JPanel labelPane = new JPanel(new GridLayout(0, 1));
+		labelPane.add(nameLabel);
+		
+		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
+		fieldPane.add(nameField);
+		
+		JPanel buttonPane = new JPanel();
+		
+		JButton submitButton = new JButton("Submit");
+		JButton cancelButton = new JButton("Cancel");
+		buttonPane.add(submitButton);
+		buttonPane.add(cancelButton);
+		submitButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Submit add list pressed " + nameField.getText());
+				// add list
+				ListStorage storage = user.getListStorage();
+				storage.addList(nameField.getText());
+				// close add list frame
+				popUpAddFrame.dispose();
+				// refresh logged-in frame and components
+				frame.dispose();
+				createAndShowGUI();
+				// switch to the logged in card 
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGGEDIN);
+			}
+		});
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cancel add list pressed");
+				popUpAddFrame.dispose();
+			}
+		});
+		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(labelPane, BorderLayout.CENTER);
+		mainPanel.add(fieldPane, BorderLayout.LINE_END);
+		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
+		
 		return mainPanel;
 	}
 	
