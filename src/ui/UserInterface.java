@@ -27,10 +27,10 @@ public class UserInterface{
 	static JFrame popUpAddFrame;
 	
 	static JPanel cards;
-	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the list/search display)
+	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the search display/items display/add item)
 	final static String NEWUSER = "New User Card"; // card that shows newUserMenuBar to select create account or log in
-	final static String CREATEACCOUNT = "Create Account Card"; // card for creating account TODO validate input
-	final static String LOGIN = "Log in User Card"; // card for logging in TODO validate user-name and password and find user
+	final static String CREATEACCOUNT = "Create Account Card"; // card for creating account 
+	final static String LOGIN = "Log in User Card"; // card for logging in 
 	
 	public static JPanel loginCard() {
 		// create text fields

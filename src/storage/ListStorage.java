@@ -16,10 +16,12 @@ public class ListStorage {
 	Vector<List> lists;
 	String filename;
 	
+	// TODO only restoreLists() when a user logs out or when the program is exited
+	
 	// format
 		// listAmount
 		// listname,itemAmount
-		// item-name,item-quantity,item-store-name
+		// item-name,item-quantity,item-store-name,itemID
 	
 	public Vector<List> getLists() {
 		return this.lists;
@@ -95,7 +97,7 @@ public class ListStorage {
 		// find the corresponding list
 		for(int i = 0; i < lists.size(); i++) {
 			List tempList = lists.elementAt(i);
-			if(tempList.getName().compareTo(listName) == 0) {
+			if(tempList.getName().equals(listName)) {
 				lists.remove(i);
 			}
 		}

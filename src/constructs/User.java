@@ -42,5 +42,6 @@ public class User {
 	// TODO changeID
 	// TODO changeEmail
 	// TODO changePassword
-	// ^ all should update the database
+	
+	// ^ all should update the database?
 }
