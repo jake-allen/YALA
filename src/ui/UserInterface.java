@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Vector;
 
 import constructs.*;
@@ -121,8 +123,11 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
+				// save user changes to their lists
+				user.getListStorage().restoreLists();
 				// logout
 				loggedIn = false;
+				user = null;
 				// switch to a not logged in card
 				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, NEWUSER);	
@@ -226,9 +231,7 @@ public class UserInterface{
 				String password = new String(passwordField.getPassword());
 				String username = usernameField.getText();
 				String email = emailField.getText();
-				
-				// validate input TODO
-				// password must be unique TODO
+				// validate input
 				if(userStorage.getUser(email, password) == null) {
 					// create new user and add it
 					user = new User(username, email, password);
@@ -250,7 +253,7 @@ public class UserInterface{
 					System.out.println("email: " + user.getEmail());
 				}
 				else {
-					System.out.println("ERROR: user already exists");
+					System.out.println("ERROR: user email/password already exists");
 					// switch back to the new user card 
 					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, NEWUSER);
@@ -574,11 +577,32 @@ public class UserInterface{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
 		addComponents(frame.getContentPane());
+		frame.addWindowListener(new WindowListener() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if(loggedIn) {
+					user.getListStorage().restoreLists();
+				}
+			}
+			// no need for these, but they must be implemented
+			@Override
+			public void windowOpened(WindowEvent e) {}
+			@Override
+			public void windowClosed(WindowEvent e) {}
+			@Override
+			public void windowIconified(WindowEvent e) {}
+			@Override
+			public void windowDeiconified(WindowEvent e) {}
+			@Override
+			public void windowActivated(WindowEvent e) {}
+			@Override
+			public void windowDeactivated(WindowEvent e) {}
+		});
 		// finish set up and display
 		frame.pack();
 		frame.setVisible(true);
 	}
-
+	
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
 		try {

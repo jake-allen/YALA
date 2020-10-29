@@ -103,7 +103,7 @@ public class ListStorage {
 			}
 		}
 		// rewrite lists to the storage file
-		restoreLists();
+		// restoreLists();
 	}
 	
 	public void addList(String listName){
@@ -111,7 +111,7 @@ public class ListStorage {
 		// add list to the vector
 		lists.add(newList);
 		// rewrite lists to the storage file
-		restoreLists();
+		// restoreLists();
 	}
 	
 	public void copyList(String listName, String newListName) {
@@ -125,8 +125,8 @@ public class ListStorage {
 					newList.addItem(tempItem.getName(), tempItem.getQuantity(), tempItem.getStore());
 				}
 				lists.add(newList);
-				restoreLists();
-				break;
+				// restoreLists();
+				return;
 			}
 		}
 	}
@@ -143,20 +143,21 @@ public class ListStorage {
 	
 	public void addItemtoList(int index, Item item) {
 		lists.elementAt(index).addItem(item);
+		// restoreLists();
 	}
 	
 	public void addItemToList(int index, String itemName, String itemQuantity, String storeName) {
 		// add item to list
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
 		// rewrite lists to storage file
-		restoreLists();
+		// restoreLists();
 	}
 	
 	public void addItemToList(int index, String itemName, int itemQuantity, String storeName) {
 		// add item to list
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
 		// rewrite lists to storage file
-		restoreLists();
+		// restoreLists();
 	}
 	
 	public void addItemToList(String listName, String itemName, int itemQuantity, String storeName) {
@@ -165,6 +166,7 @@ public class ListStorage {
 			if(temp.getName() == listName) {
 				temp.addItem(itemName, itemQuantity, storeName);
 			}
+			// restoreLists();
 			return;
 		}
 	}
@@ -175,20 +177,24 @@ public class ListStorage {
 			if(temp.getName() == listName) {
 				temp.addItem(itemName, itemQuantity, storeName);
 			}
+			// restoreLists();
 			return;
 		}
 	}
 	
 	public void deleteListItem(int index, String itemName, String itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
+		// restoreLists();
 	}
 	
 	public void deleteListItem(int index, String itemName, int itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
+		// restoreLists();
 	}
 	
 	public void deleteListItem(int index, Item item) {
 		lists.elementAt(index).removeItem(item);
+		// restoreLists();
 	}
 	
 	public void deleteListItem(String listName, Item item) {
@@ -197,6 +203,7 @@ public class ListStorage {
 			if(temp.getName() == listName) {
 				temp.removeItem(item);
 			}
+			// restoreLists();
 			return;
 		}
 	}
@@ -207,6 +214,7 @@ public class ListStorage {
 			if(temp.getName() == listName) {
 				temp.removeItem(itemName, itemQuantity, storeName);
 			}
+			// restoreLists();
 			return;
 		}
 	}
@@ -217,11 +225,12 @@ public class ListStorage {
 			if(temp.getName() == listName) {
 				temp.removeItem(itemName, itemQuantity, storeName);
 			}
+			// restoreLists();
 			return;
 		}
 	}
 			
-	void restoreLists() {
+	public void restoreLists() {
 		// remove file's content
 		try {
 			new PrintWriter(filename).close();
