@@ -358,6 +358,15 @@ public class UserInterface{
 			}
 		});
 		
+		JButton searchButton = new JButton("Search Items");
+		searchButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ItemSearch is = new ItemSearch(stores, user);
+			}
+		});
+		
+		listPanel.add(searchButton);
 		listPanel.add(deleteListButton);
 		listPanel.add(addListButton);
 		listPanel.add(copyListButton);
@@ -605,6 +614,9 @@ public class UserInterface{
 	
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
+		Store s = new Store();
+		stores = new Vector<Store>();
+		stores.add(s);
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | 
