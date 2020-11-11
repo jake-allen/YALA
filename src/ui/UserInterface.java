@@ -2,6 +2,7 @@ package ui;
 
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -22,11 +23,13 @@ public class UserInterface{
 	
 	static boolean loggedIn = false;
 	static User user;
-	Vector<Store> stores;
+	static Vector<Store> stores;
 	static UserStorage userStorage;
 	
 	static JFrame frame;
 	static JFrame popUpAddFrame;
+	//Added by sam
+	static JFrame itemListManager;
 	
 	static JPanel cards;
 	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the search display/items display/add item)
@@ -36,8 +39,8 @@ public class UserInterface{
 	
 	public static JPanel loginCard() {
 		// create text fields
-		JTextField idField = new JTextField(20);
-		JPasswordField passwordField = new JPasswordField(20);
+		final JTextField idField = new JTextField(20);
+		final JPasswordField passwordField = new JPasswordField(20);
 		// add labels
 		JLabel idLabel = new JLabel("Enter email: ");
 		JLabel passwordLabel = new JLabel("Enter password: ");
@@ -201,9 +204,9 @@ public class UserInterface{
 	
 	public static JPanel createAccountCard() {
 		// create the text fields
-		JTextField usernameField = new  JTextField(20);
-		JTextField emailField = new JTextField(20);
-		JPasswordField passwordField = new JPasswordField(20);
+		final JTextField usernameField = new  JTextField(20);
+		final JTextField emailField = new JTextField(20);
+		final JPasswordField passwordField = new JPasswordField(20);
 		// add labels
 		JLabel usernameLabel = new JLabel("Enter username: ");
 		JLabel emailLabel = new JLabel("Enter email: ");
@@ -231,7 +234,10 @@ public class UserInterface{
 				String password = new String(passwordField.getPassword());
 				String username = usernameField.getText();
 				String email = emailField.getText();
-				// validate input
+				
+				// validate input TODO
+				// password must be unique TODO
+				//validate input
 				if(userStorage.getUser(email, password) == null) {
 					// create new user and add it
 					user = new User(username, email, password);
@@ -253,6 +259,7 @@ public class UserInterface{
 					System.out.println("email: " + user.getEmail());
 				}
 				else {
+					System.out.println("ERROR: user already exists");
 					System.out.println("ERROR: user email/password already exists");
 					// switch back to the new user card 
 					CardLayout cl = (CardLayout)(cards.getLayout());
@@ -300,19 +307,42 @@ public class UserInterface{
 				}
 			}
 			
+			
+			//SAM - modify this
+			
 			for(int i = 0; i < lists.size(); i++) {
-				List list = lists.elementAt(i);
+				final List list = lists.elementAt(i);	//sam changed this
 				JButton listButton = new JButton(list.getName());
+				
+				
+				//sam modifying this
 				listButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						// list clicked
 						String command = ((JButton) e.getSource()).getActionCommand();
 						System.out.println(command + " list clicked");
+						itemListManager = new JFrame(command);
+						itemListManager.add(itemInListManagerField(list));
+						itemListManager.pack();	//sam - do i need this?
+						itemListManager.setVisible(true);
+						
+						// print lists and items for debugging
+						for(int i = 0; i < lists.size(); i++) {
+							List list = lists.elementAt(i);
+							Vector<Item> items = list.getItems();
+							System.out.println("list: " + i + ", " + list.getName());
+							for(int j = 0; j < items.size(); j++) {
+								Item item = items.elementAt(j);
+								System.out.println(item.getName() + " " + item.getQuantity() + " " + item.getStore());
+							}
+						}
+						
 					}
 				});
 				System.out.println("ADDING BUTTON");
 				panel.add(listButton);
+				
 			}
 			
 		}
@@ -365,8 +395,8 @@ public class UserInterface{
 				ItemSearch is = new ItemSearch(stores, user);
 			}
 		});
-		
-		listPanel.add(searchButton);
+
+		listPanel.add(searchButton);		
 		listPanel.add(deleteListButton);
 		listPanel.add(addListButton);
 		listPanel.add(copyListButton);
@@ -383,7 +413,7 @@ public class UserInterface{
 		JPanel mainPanel = new JPanel();
 		
 		JLabel nameLabel = new JLabel("List name: ");
-		JFormattedTextField nameField = new JFormattedTextField();
+		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
 		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
@@ -435,7 +465,7 @@ public class UserInterface{
 		JPanel mainPanel = new JPanel();
 		
 		JLabel nameLabel = new JLabel("List name to delete: ");
-		JFormattedTextField nameField = new JFormattedTextField();
+		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
 		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
@@ -492,11 +522,11 @@ public class UserInterface{
 		JPanel mainPanel = new JPanel();
 		
 		JLabel nameLabel = new JLabel("List to copy: ");
-		JFormattedTextField nameField = new JFormattedTextField();
+		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
 		
 		JLabel newNameLabel = new JLabel("Name of new list: ");
-		JFormattedTextField newNameField = new JFormattedTextField();
+		final JFormattedTextField newNameField = new JFormattedTextField();
 		newNameField.setColumns(20);
 		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
@@ -553,6 +583,61 @@ public class UserInterface{
 		
 	}
 	
+	//Sam's
+	public static JPanel itemInListManagerField(final List list) {
+		JPanel mainPanel = new JPanel(new GridLayout(1,0));
+		
+		//JFrame itemList = new JFrame();
+		//itemList.setLayout(new BoxLayout(itemList.getContentPane(), BoxLayout.Y_AXIS));
+		//itemList.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		
+		String[] columnNames = {"CrossedOff", "Item", "NumLeft"};
+		//get items from current list
+		Vector<Item> items = list.getItems();
+		Vector<JButton> crossButtons = new Vector<JButton>();		
+		
+		String[] stuff = {"x","y","z"};				
+		Object[][] data = new Object[items.size()][];
+		for (int i = 0; i < items.size(); i++) {
+			stuff[0] = "check";
+			stuff[1] = items.get(i).getName();
+			stuff[2] = Integer.toString(items.get(i).getQuantity());
+			//System.out.println(stuff[0]+" "+stuff[1]+" "+stuff[2]);
+			data[i] = stuff;	
+			//System.out.println(data[i][0]+" "+data[i][1]+" "+data[i][2]);
+		}
+		/*
+		Action cross = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				addItem(e.getModifiers());
+			}
+		};
+		*/
+		
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);	
+		
+		for (int i = 0; i < items.size(); i++) {			
+			JButton listButton = new JButton("Cross Off/On");
+			listButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String command = ((JButton) e.getSource()).getActionCommand();				
+					System.out.println(command);
+					//itemList.dispose();
+				}
+			});
+			crossButtons.add(listButton);			
+		}
+		model.addColumn("CheckOff", crossButtons);
+		
+		JTable table = new JTable(model);
+		mainPanel.setLayout(new BorderLayout());
+		//add stuff
+		mainPanel.add(table);
+		return mainPanel;
+	}
+	
 	public static void addComponents(Container pane) {
 		// create card for new user
 		JPanel newUserCard = new JPanel();
@@ -586,6 +671,7 @@ public class UserInterface{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
 		addComponents(frame.getContentPane());
+
 		frame.addWindowListener(new WindowListener() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -611,7 +697,7 @@ public class UserInterface{
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
 		Store s = new Store();
