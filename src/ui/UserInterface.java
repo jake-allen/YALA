@@ -30,6 +30,7 @@ public class UserInterface{
 	static JFrame popUpAddFrame;
 	//Added by sam
 	static JFrame itemListManager;
+	//static String currentListName;
 	
 	static JPanel cards;
 	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the search display/items display/add item)
@@ -585,38 +586,34 @@ public class UserInterface{
 	
 	//Sam's
 	public static JPanel itemInListManagerField(final List list) {
-		JPanel mainPanel = new JPanel(new GridLayout(1,0));
+		JPanel mainPanel = new JPanel();//(new GridLayout(1,0));
+		JPanel options = new JPanel();
+		JMenuBar optionBar = new JMenuBar();
+		String[] columnNames = {"Item", "Store", "NumLeft"};
 		
-		//JFrame itemList = new JFrame();
-		//itemList.setLayout(new BoxLayout(itemList.getContentPane(), BoxLayout.Y_AXIS));
-		//itemList.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		
-		String[] columnNames = {"CrossedOff", "Item", "NumLeft"};
 		//get items from current list
 		Vector<Item> items = list.getItems();
-		Vector<JButton> crossButtons = new Vector<JButton>();		
-		
-		String[] stuff = {"x","y","z"};				
+		//Vector<JButton> crossButtons = new Vector<JButton>();
 		Object[][] data = new Object[items.size()][];
 		for (int i = 0; i < items.size(); i++) {
-			stuff[0] = "check";
-			stuff[1] = items.get(i).getName();
-			stuff[2] = Integer.toString(items.get(i).getQuantity());
-			//System.out.println(stuff[0]+" "+stuff[1]+" "+stuff[2]);
-			data[i] = stuff;	
-			//System.out.println(data[i][0]+" "+data[i][1]+" "+data[i][2]);
+			String[] stuff = new String[3];
+			stuff[0] = items.get(i).getName();
+			stuff[1] = items.get(i).getStore();
+			int quantity = items.get(i).getQuantity();
+			
+			//THIS LOGIC IS CRITICAL - CURRENTLY ANY NEGATIVE QUANTITY IS CONSIDERED CROSSED OFF
+			//TODO - Consider how to implement if quantity happens to be zero
+			if (quantity < 0)
+				stuff[2] = "Complete ("+Integer.toString(quantity*-1)+" in cart)";
+			else
+				stuff[2] = Integer.toString(quantity);
+			data[i] = stuff;
 		}
+		
+		DefaultTableModel model = new DefaultTableModel(data, columnNames);
+		JTable table = new JTable(model);
+		
 		/*
-		Action cross = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				addItem(e.getModifiers());
-			}
-		};
-		*/
-		
-		DefaultTableModel model = new DefaultTableModel(data, columnNames);	
-		
 		for (int i = 0; i < items.size(); i++) {			
 			JButton listButton = new JButton("Cross Off/On");
 			listButton.addActionListener(new ActionListener() {
@@ -629,12 +626,79 @@ public class UserInterface{
 			});
 			crossButtons.add(listButton);			
 		}
-		model.addColumn("CheckOff", crossButtons);
+		//model.addColumn("CheckOff", crossButtons);
+		*/
 		
-		JTable table = new JTable(model);
-		mainPanel.setLayout(new BorderLayout());
+		JButton crossButton = new JButton("Cross/Uncross");
+		crossButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();				
+				if (row >= 0) {	//index of item?
+					//Do stuff - item.crossOff/uncross do the exact same thing
+					list.getItems().get(row).crossOff();
+					//Refresh table
+					itemListManager.dispose();
+					itemListManager = new JFrame(list.getName());
+					itemListManager.add(itemInListManagerField(list));
+					itemListManager.pack();
+					itemListManager.setVisible(true);					
+				} else {
+					System.out.println("ERROR: Line not selected");
+				}				
+			}			
+		});		
+		
+		JButton deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = table.getSelectedRow();
+				if (row >= 0) {
+					JFrame confirmPrompt = new JFrame("Delete "+ list.getItems().get(row).getName() + "?");
+					JPanel confirm = new JPanel();
+					JButton yesButton = new JButton("Yes");
+					yesButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							list.removeItem(list.getItems().get(row));
+							confirmPrompt.dispose();
+							//Refresh table
+							itemListManager.dispose();
+							itemListManager = new JFrame(list.getName());
+							itemListManager.add(itemInListManagerField(list));
+							itemListManager.pack();
+							itemListManager.setVisible(true);	
+						}			
+					});		
+					JButton noButton = new JButton("No");
+					noButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							confirmPrompt.dispose();//TODO - this might not work
+						}			
+					});	
+					confirm.add(yesButton);
+					confirm.add(noButton);
+					confirmPrompt.add(confirm);
+					confirmPrompt.pack();
+					confirmPrompt.setVisible(true);
+				} else {
+					System.out.println("ERROR: Line not selected");
+				}
+			}			
+		});		
+				
 		//add stuff
+		optionBar.add(crossButton);
+		optionBar.add(deleteButton);
+		//options.add(optionBar);
+		mainPanel.add(optionBar);
+		mainPanel.add(new JLabel("Highlight item you wish to modify."));
+		//mainPanel.add(options);
 		mainPanel.add(table);
+		mainPanel.add(new JScrollPane(table));
+		
 		return mainPanel;
 	}
 	
