@@ -586,14 +586,12 @@ public class UserInterface{
 	
 	//Sam's
 	public static JPanel itemInListManagerField(final List list) {
-		JPanel mainPanel = new JPanel();//(new GridLayout(1,0));
-		JPanel options = new JPanel();
+		JPanel mainPanel = new JPanel();
 		JMenuBar optionBar = new JMenuBar();
 		String[] columnNames = {"Item", "Store", "NumLeft"};
 		
 		//get items from current list
 		Vector<Item> items = list.getItems();
-		//Vector<JButton> crossButtons = new Vector<JButton>();
 		Object[][] data = new Object[items.size()][];
 		for (int i = 0; i < items.size(); i++) {
 			String[] stuff = new String[3];
@@ -612,22 +610,6 @@ public class UserInterface{
 		
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable table = new JTable(model);
-		
-		/*
-		for (int i = 0; i < items.size(); i++) {			
-			JButton listButton = new JButton("Cross Off/On");
-			listButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String command = ((JButton) e.getSource()).getActionCommand();				
-					System.out.println(command);
-					//itemList.dispose();
-				}
-			});
-			crossButtons.add(listButton);			
-		}
-		//model.addColumn("CheckOff", crossButtons);
-		*/
 		
 		JButton crossButton = new JButton("Cross/Uncross");
 		crossButton.addActionListener(new ActionListener() {
@@ -675,7 +657,7 @@ public class UserInterface{
 					noButton.addActionListener(new ActionListener() {
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							confirmPrompt.dispose();//TODO - this might not work
+							confirmPrompt.dispose();
 						}			
 					});	
 					confirm.add(yesButton);
@@ -692,10 +674,8 @@ public class UserInterface{
 		//add stuff
 		optionBar.add(crossButton);
 		optionBar.add(deleteButton);
-		//options.add(optionBar);
 		mainPanel.add(optionBar);
 		mainPanel.add(new JLabel("Highlight item you wish to modify."));
-		//mainPanel.add(options);
 		mainPanel.add(table);
 		mainPanel.add(new JScrollPane(table));
 		
