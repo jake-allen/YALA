@@ -21,6 +21,11 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 
+import constructs.List;
+import constructs.User;
+import storage.ListStorage;
+import storage.Store;
+
 public class ItemSearch extends JFrame implements ActionListener {
 	
 	Vector<Store> stores;
@@ -48,7 +53,7 @@ public class ItemSearch extends JFrame implements ActionListener {
 	}
 	
 	void makeStoreButtons(Store s) {
-		JButton temp = new JButton(s.name);
+		JButton temp = new JButton(s.getName());
 		temp.addActionListener(this);
 		storeButtons.add(temp);
 		this.add(temp);
@@ -90,7 +95,7 @@ public class ItemSearch extends JFrame implements ActionListener {
 		JFrame findList = new JFrame();
 		findList.setLayout(new BoxLayout(findList.getContentPane(), BoxLayout.Y_AXIS));
 		findList.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		ListStorage userLists = user.lists;
+		ListStorage userLists = user.getListStorage();
 		for(int i = 0; i < userLists.getLists().size(); i++) {
 			List list = userLists.getLists().elementAt(i);
 			JButton listButton = new JButton(list.getName());
