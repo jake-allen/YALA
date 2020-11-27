@@ -196,10 +196,28 @@ public class UserInterface{
 				cl.show(cards, CREATEACCOUNT);
 			}
 		});
+		//SAM'S DEBUG MODE
+		JMenuItem debugMenuItem = new JMenuItem("Debug");	//added by sam
+		debugMenuItem.addActionListener(new ActionListener() {
+			// selected create account 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(e.getActionCommand());
+				user = userStorage.getUser("jake@jakeallen.com", "password");
+				loggedIn = true;
+				frame.dispose();
+				createAndShowGUI();
+				CardLayout cl = (CardLayout)(cards.getLayout());
+				cl.show(cards, LOGGEDIN);
+			}
+		});
+		
 		// add the menu items to the menu
 		accountMenu.add(loginMenuItem);
 		accountMenu.addSeparator();
 		accountMenu.add(createAccountMenuItem);
+		accountMenu.addSeparator();
+		accountMenu.add(debugMenuItem);
 		return menuBar;
 	}
 	
