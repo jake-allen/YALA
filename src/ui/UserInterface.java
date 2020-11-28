@@ -582,7 +582,7 @@ public class UserInterface{
 					confirm.add(yesButton);
 					confirm.add(noButton);
 					confirmPrompt.add(confirm);
-					confirmPrompt.pack();
+					confirmPrompt.setSize(500,75);
 					confirmPrompt.setVisible(true);
 				}			
 			});
@@ -807,7 +807,7 @@ public class UserInterface{
 					confirm.add(yesButton);
 					confirm.add(noButton);
 					confirmPrompt.add(confirm);
-					confirmPrompt.pack();
+					confirmPrompt.setSize(500,75);
 					confirmPrompt.setVisible(true);
 				} else {
 					System.out.println("ERROR: Line not selected");
@@ -818,10 +818,11 @@ public class UserInterface{
 		//add stuff
 		optionBar.add(crossButton);
 		optionBar.add(deleteButton);
+		optionBar.add(new JLabel("Highlight item you wish to modify."),BorderLayout.EAST);
 		mainPanel.add(optionBar,BorderLayout.PAGE_START);
-		mainPanel.add(new JLabel("Highlight item you wish to modify."),BorderLayout.PAGE_END);
 		
 		mainPanel.add(table,BorderLayout.CENTER);
+		
 		mainPanel.add(new JScrollPane(table),BorderLayout.CENTER);
 		
 		return mainPanel;
