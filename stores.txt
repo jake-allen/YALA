@@ -1,0 +1,9 @@
+Store 1,4
+Bread Factory,Bread,wheat
+Bread Factory,Bread,white
+Dairymania,Milk,2%
+Dairy Farms,Milk,whole
+Amazon,3
+Nintendo,Wii U,Console
+Nintendo,Wii,Console
+Nintendo,DS,Handheld
