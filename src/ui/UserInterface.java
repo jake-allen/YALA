@@ -25,6 +25,7 @@ public class UserInterface{
 	static User user;
 	static Vector<Store> stores;
 	static UserStorage userStorage;
+	static StoreStorage storeStorage;
 	
 	static JFrame frame;
 	static JFrame popUpAddFrame;
@@ -411,7 +412,8 @@ public class UserInterface{
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ItemSearch is = new ItemSearch(stores, user);
+				//ItemSearch is = new ItemSearch(stores, user);
+				ItemSearch is = new ItemSearch(storeStorage.getStores(), user);
 			}
 		});
 
@@ -762,9 +764,13 @@ public class UserInterface{
 
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
-		Store s = new Store();
+		
+		
+		Store s = new Store("do nothing");
 		stores = new Vector<Store>();
 		stores.add(s);
+		storeStorage = new StoreStorage("stores.txt");
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | 
