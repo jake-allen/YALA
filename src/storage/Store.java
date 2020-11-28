@@ -6,16 +6,30 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
+import constructs.Product;
+
+
 public class Store {
 	Vector<Product> products;
 	String name;
 	
+	/*
 	public Store() {
 		name = "Test";
 		products = parseInventory();
 //		products.stream()
 //			.forEach(p -> System.out.println(p.toString()));
 		
+	}
+	*/
+	
+	public Store(String name) {
+		products = new Vector<Product>();
+		this.name = name;
+	}
+	
+	public void addProduct(Product p) {
+		products.add(p);
 	}
 	
 	public Vector<Product> getProducts(){
@@ -25,7 +39,7 @@ public class Store {
 	public String getName() {
 		return name;
 	}
-	
+	/*
 	Vector<Product> parseInventory(){
 		BufferedReader reader = null;
 		Vector<Product> newProds = new Vector<Product>();
@@ -43,4 +57,5 @@ public class Store {
 		}
 		return newProds;
 	}
+	*/
 }
