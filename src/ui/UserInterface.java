@@ -313,7 +313,7 @@ public class UserInterface{
 	public static JPanel loggedInCard() {
 		JPanel panel = new JPanel();		
 		
-		if(loggedIn) {			
+		if(loggedIn) {	//is this condition even necessary?			
 			Vector<List> lists = user.getListStorage().getLists();
 			
 			// print lists and items for debugging
@@ -326,16 +326,9 @@ public class UserInterface{
 					System.out.println(item.getName() + " " + item.getQuantity() + " " + item.getStore());
 				}
 			}
-			
-			
-			//SAM - modify this
-			
 			for(int i = 0; i < lists.size(); i++) {
-				final List list = lists.elementAt(i);	//sam changed this
+				final List list = lists.elementAt(i);
 				JButton listButton = new JButton(list.getName());
-				
-				
-				//sam modifying this
 				listButton.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -361,13 +354,8 @@ public class UserInterface{
 					}
 				});
 				System.out.println("ADDING BUTTON");
-				panel.add(listButton);
-				
-			}
-			
-		}
-		else {
-			
+				panel.add(listButton);	
+			}	
 		}
 
 		JPanel listPanel = new JPanel();
@@ -390,7 +378,10 @@ public class UserInterface{
 				// delete list clicked
 				System.out.println("add a list clicked");
 				popUpAddFrame = new JFrame("Delete List");
-				popUpAddFrame.add(deleteListTextField());
+				
+				//popUpAddFrame.add(deleteListTextField());
+				popUpAddFrame.add(deleteListButtonField());
+				
 				popUpAddFrame.pack();
 				popUpAddFrame.setVisible(true);
 			}
@@ -402,7 +393,10 @@ public class UserInterface{
 				// delete list clicked
 				System.out.println("copy a list clicked");
 				popUpAddFrame = new JFrame("Copy a List");
-				popUpAddFrame.add(copyListTextField());
+				
+				//popUpAddFrame.add(copyListTextField());
+				popUpAddFrame.add(copyListButtonField());
+				
 				popUpAddFrame.pack();
 				popUpAddFrame.setVisible(true);
 			}
@@ -417,16 +411,19 @@ public class UserInterface{
 			}
 		});
 
-		listPanel.add(searchButton);		
-		listPanel.add(deleteListButton);
+		//order changed
+		listPanel.add(searchButton);	
 		listPanel.add(addListButton);
-		listPanel.add(copyListButton);
+		listPanel.add(copyListButton);	
+		listPanel.add(deleteListButton);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(loggedInMenuBar(), BorderLayout.PAGE_START);
-		mainPanel.add(panel, BorderLayout.LINE_END);
+		//mainPanel.add(panel, BorderLayout.LINE_END);
+		//mainPanel.add(listPanel, BorderLayout.CENTER);
 		mainPanel.add(listPanel, BorderLayout.CENTER);
+		mainPanel.add(panel, BorderLayout.PAGE_END);
 		return mainPanel;
 	}
 	
@@ -455,7 +452,14 @@ public class UserInterface{
 				System.out.println("Submit add list pressed " + nameField.getText());
 				// add list
 				ListStorage storage = user.getListStorage();
-				storage.addList(nameField.getText());
+				//storage.addList(nameField.getText());
+				
+				//Added by Sam
+				if (!storage.hasList(nameField.getText()))
+					storage.addList(nameField.getText());
+				else
+					System.out.println("Cannot have two lists of same name");
+				
 				// close add list frame
 				popUpAddFrame.dispose();
 				// refresh logged-in frame and components
@@ -539,6 +543,68 @@ public class UserInterface{
 		return mainPanel;
 	}
 	
+	public static JPanel deleteListButtonField() {
+		JPanel mainPanel = new JPanel();		
+		JLabel nameLabel = new JLabel("List to delete: ");
+		
+		JPanel buttonPane = new JPanel();
+		ListStorage storage = user.getListStorage();
+		for (int i = 0; i < storage.getLists().size(); i++) {
+			JButton listButton = new JButton(storage.getLists().get(i).getName());
+			List list = storage.getLists().elementAt(i);
+			listButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JFrame confirmPrompt = new JFrame("Delete "+ list.getName() + "?");
+					JPanel confirm = new JPanel();
+					JButton yesButton = new JButton("Yes");
+					yesButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							storage.deleteList(list.getName());
+							confirmPrompt.dispose();
+							popUpAddFrame.dispose();
+							// refresh logged-in frame and components
+							frame.dispose();
+							createAndShowGUI();
+							// switch to the logged in card 
+							CardLayout cl = (CardLayout)(cards.getLayout());
+							cl.show(cards, LOGGEDIN);
+						}			
+					});		
+					JButton noButton = new JButton("No");
+					noButton.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							confirmPrompt.dispose();
+						}			
+					});	
+					confirm.add(yesButton);
+					confirm.add(noButton);
+					confirmPrompt.add(confirm);
+					confirmPrompt.pack();
+					confirmPrompt.setVisible(true);
+				}			
+			});
+			buttonPane.add(listButton);
+		}
+		JButton cancelButton = new JButton("Cancel");
+		buttonPane.add(cancelButton);	
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cancel delete list pressed");
+				popUpAddFrame.dispose();
+			}
+		});
+		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(nameLabel, BorderLayout.LINE_END);
+		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
+		
+		return mainPanel;
+	}
+	
 	public static JPanel copyListTextField() {
 		JPanel mainPanel = new JPanel();
 		
@@ -603,10 +669,68 @@ public class UserInterface{
 		return mainPanel;
 		
 	}
+	public static JPanel copyListButtonField() {
+		JPanel mainPanel = new JPanel();		
+		JLabel nameLabel = new JLabel("List to copy: ");		
+		
+		JLabel newNameLabel = new JLabel("Name of new list: ");
+		final JFormattedTextField newNameField = new JFormattedTextField();
+		newNameField.setColumns(20);	//TODO - have error for too many characters?
+		
+		JPanel labelPane = new JPanel(new GridLayout(0, 1));
+		//labelPane.add(nameLabel);
+		labelPane.add(newNameLabel);
+		labelPane.add(newNameField);
+		
+		JPanel buttonPane = new JPanel();
+		buttonPane.add(nameLabel);
+		ListStorage storage = user.getListStorage();
+		for (int i = 0; i < storage.getLists().size(); i++) {
+			JButton listButton = new JButton(storage.getLists().get(i).getName());
+			List list = storage.getLists().elementAt(i);
+			listButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (!storage.hasList(newNameField.getText())){		
+						storage.copyList(list.getName(), newNameField.getText());
+						popUpAddFrame.dispose();
+						// refresh logged-in frame and components
+						frame.dispose();
+						createAndShowGUI();
+						// switch to the logged in card 
+						CardLayout cl = (CardLayout)(cards.getLayout());
+						cl.show(cards, LOGGEDIN);
+					} else {
+						System.out.println("Cannot have two lists of same name");
+						popUpAddFrame.dispose();	//should it dispose?
+					}
+				}
+			});
+			buttonPane.add(listButton);
+		}
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Cancel copy list pressed");
+				popUpAddFrame.dispose();
+			}
+		});
+		buttonPane.add(cancelButton);	
+		
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(buttonPane, BorderLayout.CENTER);
+		mainPanel.add(labelPane, BorderLayout.PAGE_START);
+		//mainPanel.add(fieldPane, BorderLayout.LINE_END);
+		//mainPanel.add(new JPanel(cancelButton),BorderLayout.PAGE_END);
+		
+		return mainPanel;
+		
+	}
 	
 	//Sam's
 	public static JPanel itemInListManagerField(final List list) {
-		JPanel mainPanel = new JPanel();
+		JPanel mainPanel = new JPanel(new BorderLayout());
 		JMenuBar optionBar = new JMenuBar();
 		String[] columnNames = {"Item", "Store", "NumLeft"};
 		
@@ -694,10 +818,11 @@ public class UserInterface{
 		//add stuff
 		optionBar.add(crossButton);
 		optionBar.add(deleteButton);
-		mainPanel.add(optionBar);
-		mainPanel.add(new JLabel("Highlight item you wish to modify."));
-		mainPanel.add(table);
-		mainPanel.add(new JScrollPane(table));
+		mainPanel.add(optionBar,BorderLayout.PAGE_START);
+		mainPanel.add(new JLabel("Highlight item you wish to modify."),BorderLayout.PAGE_END);
+		
+		mainPanel.add(table,BorderLayout.CENTER);
+		mainPanel.add(new JScrollPane(table),BorderLayout.CENTER);
 		
 		return mainPanel;
 	}
