@@ -19,21 +19,17 @@ import java.util.Vector;
 import constructs.*;
 import storage.*;
 
-public class UserInterface{
-	
+public class UserInterface{	
 	static boolean loggedIn = false;
-	static User user;
-	static Vector<Store> stores;
+	public static User user;
 	static UserStorage userStorage;
-	static StoreStorage storeStorage;
-	
+	static StoreStorage storeStorage;		
 	static JFrame frame;
 	static JFrame popUpAddFrame;
-	//Added by sam
-	static JFrame itemListManager;
-	//static String currentListName;
+	static JFrame itemListManager;	
 	
 	static JPanel cards;
+	static CardLayout cl;
 	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the search display/items display/add item)
 	final static String NEWUSER = "New User Card"; // card that shows newUserMenuBar to select create account or log in
 	final static String CREATEACCOUNT = "Create Account Card"; // card for creating account 
@@ -69,17 +65,16 @@ public class UserInterface{
 				if(userStorage.getUser(email, password) != null) {
 					user = userStorage.getUser(email, password);
 					loggedIn = true;
+					
 					// refresh frame to show the user-name of the logged in user
 					frame.dispose();
 					createAndShowGUI();
 					// switch to the logged in card 
-					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, LOGGEDIN);
 				}
 				else {
 					System.out.println("ERROR: invalid login"); // TODO ACCOUNT
 					// switch back to the new user card 
-					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, NEWUSER);
 				}
 			}
@@ -90,7 +85,6 @@ public class UserInterface{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
 				// switch back to the new user card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, NEWUSER);
 			}
 		});
@@ -134,7 +128,6 @@ public class UserInterface{
 				loggedIn = false;
 				user = null;
 				// switch to a not logged in card
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, NEWUSER);	
 			}
 		});
@@ -184,7 +177,6 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, LOGIN);	
 			}
 		});
@@ -193,7 +185,6 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, CREATEACCOUNT);
 			}
 		});
@@ -208,7 +199,6 @@ public class UserInterface{
 				loggedIn = true;
 				frame.dispose();
 				createAndShowGUI();
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, LOGGEDIN);
 			}
 		});
@@ -271,7 +261,6 @@ public class UserInterface{
 					createAndShowGUI();
 					
 					// switch to the logged in card
-					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, LOGGEDIN);
 					
 					// print for testing 
@@ -282,7 +271,6 @@ public class UserInterface{
 					System.out.println("ERROR: user already exists");
 					System.out.println("ERROR: user email/password already exists");
 					// switch back to the new user card 
-					CardLayout cl = (CardLayout)(cards.getLayout());
 					cl.show(cards, NEWUSER);
 				}	
 			}
@@ -293,7 +281,6 @@ public class UserInterface{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
 				// switch back to the new user card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, NEWUSER);
 			}
 		});
@@ -466,7 +453,6 @@ public class UserInterface{
 				frame.dispose();
 				createAndShowGUI();
 				// switch to the logged in card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, LOGGEDIN);
 			}
 		});
@@ -523,7 +509,6 @@ public class UserInterface{
 				frame.dispose();
 				createAndShowGUI();
 				// switch to the logged in card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, LOGGEDIN);
 			}
 		});
@@ -568,7 +553,6 @@ public class UserInterface{
 							frame.dispose();
 							createAndShowGUI();
 							// switch to the logged in card 
-							CardLayout cl = (CardLayout)(cards.getLayout());
 							cl.show(cards, LOGGEDIN);
 						}			
 					});		
@@ -649,7 +633,6 @@ public class UserInterface{
 				frame.dispose();
 				createAndShowGUI();
 				// switch to the logged in card 
-				CardLayout cl = (CardLayout)(cards.getLayout());
 				cl.show(cards, LOGGEDIN);
 			}
 		});
@@ -698,7 +681,6 @@ public class UserInterface{
 						frame.dispose();
 						createAndShowGUI();
 						// switch to the logged in card 
-						CardLayout cl = (CardLayout)(cards.getLayout());
 						cl.show(cards, LOGGEDIN);
 					} else {
 						System.out.println("Cannot have two lists of same name");
@@ -721,8 +703,6 @@ public class UserInterface{
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(buttonPane, BorderLayout.CENTER);
 		mainPanel.add(labelPane, BorderLayout.PAGE_START);
-		//mainPanel.add(fieldPane, BorderLayout.LINE_END);
-		//mainPanel.add(new JPanel(cancelButton),BorderLayout.PAGE_END);
 		
 		return mainPanel;
 		
@@ -854,6 +834,19 @@ public class UserInterface{
 		pane.add(cards, BorderLayout.CENTER);
 	}
 	
+	//check for validity of string?
+	public static void switchCard(String card) {
+		CardLayout cl = (CardLayout)(cards.getLayout());
+		cl.show(cards, card);
+	}
+	
+	public static void login(String email, String password) {
+		if(userStorage.getUser(email, password) != null) {
+			user = userStorage.getUser(email, password);
+			loggedIn = true;
+		}
+	}
+	
 	private static void createAndShowGUI() {
 		userStorage = new UserStorage();
 		// set up window
@@ -861,6 +854,7 @@ public class UserInterface{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// set up pane; add components and menu bar
 		addComponents(frame.getContentPane());
+		cl = (CardLayout)(cards.getLayout());
 
 		frame.addWindowListener(new WindowListener() {
 			@Override
@@ -890,13 +884,7 @@ public class UserInterface{
 
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
-		
-		
-		Store s = new Store("do nothing");
-		stores = new Vector<Store>();
-		stores.add(s);
-		storeStorage = new StoreStorage("stores.txt");
-		
+		storeStorage = new StoreStorage("stores.txt");		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | 
