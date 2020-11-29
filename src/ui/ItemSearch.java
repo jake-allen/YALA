@@ -1,5 +1,4 @@
 package ui;
-
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -22,6 +21,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableRowSorter;
 
 import constructs.List;
+import constructs.Product;
 import constructs.User;
 import storage.ListStorage;
 import storage.Store;
@@ -49,7 +49,6 @@ public class ItemSearch extends JFrame implements ActionListener {
 		pack();
 		setVisible(true);
 		user = u;
-		//Table for search results? Three filters
 	}
 	
 	void makeStoreButtons(Store s) {
@@ -59,6 +58,7 @@ public class ItemSearch extends JFrame implements ActionListener {
 		this.add(temp);
 	}
 	
+	// Main search table
 	private void makeTable() {
 		String[] colNames = {"Brand", "Type", "Extra"};
 		String[][] data = new String[mainStore.getProducts().size()][3];
@@ -84,10 +84,11 @@ public class ItemSearch extends JFrame implements ActionListener {
 		sp = new JScrollPane(table);
 		add(sp);
 		pack();
-		addFilters();
+		filterMenu();
 		setVisible(true);
 	}
 	
+	// Dialog for adding items
 	public void addItem(int row) {
 		final String name = table.getModel().getValueAt(row, 0) + " "
 				+ table.getModel().getValueAt(row, 1) + " "
@@ -96,60 +97,78 @@ public class ItemSearch extends JFrame implements ActionListener {
 		findList.setLayout(new BoxLayout(findList.getContentPane(), BoxLayout.Y_AXIS));
 		findList.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		ListStorage userLists = user.getListStorage();
+		DefaultListModel<String> lists = new DefaultListModel<String>();
 		for(int i = 0; i < userLists.getLists().size(); i++) {
-			List list = userLists.getLists().elementAt(i);
-			JButton listButton = new JButton(list.getName());
-			listButton.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String command = ((JButton) e.getSource()).getActionCommand();					
-					int j = 0;
-					while(!userLists.getLists().get(j).getName().equals(command))
-						j++;
-					userLists.addItemToList(j, name, "1", mainStore.getName());
+			lists.addElement(userLists.getLists().get(i).getName());
+		}
+		JList<String> allLists = new JList<>(lists);
+		
+		SpinnerModel quants = new SpinnerNumberModel(1, 1, 20, 1);
+		JSpinner spinner = new JSpinner(quants);
+		JButton adder = new JButton("Add Item");
+		adder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(allLists.getSelectedIndex() != -1) {
+					userLists.addItemToList(allLists.getSelectedIndex(), name,
+							spinner.getValue().toString(), mainStore.getName());
 					findList.dispose();
 				}
-			});
-			findList.add(listButton);
-		}
+			}
+		});
+		JLabel listLab = new JLabel("Select List");
+		JLabel quantLab = new JLabel("How many?");
+		
+		findList.add(listLab);
+		findList.add(allLists);
+		findList.add(quantLab);
+		findList.add(spinner);
+		findList.add(adder);
 		findList.pack();
 		findList.setVisible(true);
 	}
 	
-	private void addFilters() {
-		brandFilter = filterBoxes(0);
-		typeFilter = filterBoxes(1);
-		add(brandFilter);
-		add(typeFilter);
-	}
-	
-	private JTextField filterBoxes(final int c) {
-		final JTextField template = new JTextField();
-		template.getDocument().addDocumentListener(
-				new DocumentListener() {
-					public void changedUpdate(DocumentEvent e) {
-						newFilter(template, c);
+	// Create the menu to filter items
+	public void filterMenu() {
+		Vector<Product> products = mainStore.getProducts();
+		JMenuBar menuBar = new JMenuBar();
+		JMenu filterMenu = new JMenu("Filter");
+		Vector<String> typeStr = new Vector<String>();
+		Vector<JMenu> types = new Vector<JMenu>();
+		for(int i = 0; i < products.size(); i++) {
+			String newType = products.get(i).getType();
+			if(!typeStr.contains(newType)) {
+				typeStr.add(newType);
+				JMenu temp = new JMenu(newType);
+				JMenuItem getAll = new JMenuItem("All");
+				getAll.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						sorter.setRowFilter(RowFilter.regexFilter(newType, 1));
 					}
-					public void insertUpdate(DocumentEvent e) {
-						newFilter(template, c);
-					}
-					public void removeUpdate(DocumentEvent e) {
-						newFilter(template, c);
-					}
+				});
+				temp.add(getAll);
+				types.add(temp);
+				filterMenu.add(temp);
+			}
+			for(int j = 0; j < types.size(); j++) {
+				if(types.get(j).getText().equals(newType)) {
+					String newExtra = products.get(i).getExtra();
+					JMenuItem getExtra = new JMenuItem(newExtra);
+					getExtra.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							sorter.setRowFilter(RowFilter.regexFilter(newType, 1));
+							sorter.setRowFilter(RowFilter.regexFilter(newExtra, 2));
+						}
+					});
+					types.get(j).add(getExtra);
+					break;
 				}
-				);
-		return template;
-	}
-	
-	private void newFilter(JTextField template, int c) {
-		RowFilter<? super DefaultTableModel, ? super Integer> rf = null;
-		try {
-			rf = RowFilter.regexFilter(template.getText(), c);
+			}
 		}
-		catch(java.util.regex.PatternSyntaxException e) {
-			return;
-		}
-		sorter.setRowFilter(rf);
+		menuBar.add(filterMenu);
+		setJMenuBar(menuBar);
 	}
 
 	@Override
@@ -247,7 +266,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener
 		}
 		else
 		{
-			editButton.setText( value.toString() );
+			editButton.setText( "Add Item" );
 			editButton.setIcon( null );
 		}
 	
@@ -298,7 +317,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener
 		}
 		else
 		{
-			renderButton.setText( value.toString() );
+			renderButton.setText( "Add Item" );
 		}
 	
 		return renderButton;
