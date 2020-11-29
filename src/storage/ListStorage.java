@@ -35,6 +35,16 @@ public class ListStorage {
 		this.loadLists();
 	}
 	
+	//ADDED BY SAM
+	public List getList(String listName) {
+		for (List l : lists) {
+			if (l.getName().equals(listName)) {
+				return l;	
+			}
+		}
+		return null; 	//if list wasn't found
+	}
+	
 	public void loadLists() {
 		// load users into the vector
 		Scanner scanner = null;
