@@ -26,7 +26,8 @@ public class StoreStorage {
 					s.addProduct(new Product(productInfo));	//PLEASE BE SURE INFO IS CORRECT LENGTH
 				}				
 				stores.add(s);
-			}	
+			}
+			scanner.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("StoreStorage error: "+ e.getMessage());
 		}
