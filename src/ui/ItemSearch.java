@@ -271,7 +271,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	}
 	
 	/**
-	 * TODO
+	 * Sets the text of the button
 	 */
 	@Override
 	public Component getTableCellEditorComponent(
@@ -294,7 +294,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	}
 	
 	/**
-	 * TODO
+	 * Returns the editor value
 	 */
 	@Override
 	public Object getCellEditorValue(){
@@ -351,11 +351,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	//
 	// Implement MouseListener interface
 	//
-	/*
-	 *  When the mouse is pressed the editor is invoked. If you then then drag
-	 *  the mouse to another cell before releasing it, the editor is still
-	 *  active. So this makes sure editing is stopped when the mouse is released.
-	 */
+
 	/**
 	 * Implements the MouseListener interface.  When the mouse is pressed the 
 	 * editor is invoked. If you then then drag the mouse to another cell 
@@ -369,7 +365,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	}
 	
 	/**
-	 * TODO
+	 * Detects a complete mouse click
 	 */
 	public void mouseReleased(MouseEvent e){
 		if (isButtonColumnEditor &&  table.isEditing()) {
