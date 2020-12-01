@@ -13,7 +13,7 @@ public class Item {
 	 * @param quantity the quantity to give the new item
 	 * @param storeName the store to give the new item
 	 */
-	Item(String itemName, String quantity, String storeName){
+	public Item(String itemName, String quantity, String storeName){
 		this.quantity = Integer.parseInt(quantity);
 		this.name = itemName;
 		this.store = storeName;
@@ -27,7 +27,7 @@ public class Item {
 	 * @param quantity the quantity to give the new item
 	 * @param storeName the store to give the new item
 	 */
-	Item(String itemName, int quantity, String storeName){
+	public Item(String itemName, int quantity, String storeName){
 		this.quantity = quantity;
 		this.name = itemName;
 		this.store = storeName;
