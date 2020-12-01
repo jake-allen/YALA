@@ -147,17 +147,57 @@ public class UserInterface{
 		accountMenu.add(logoutMenuItem);
 		// create help menu items
 		JMenu createListMenuItem = new JMenu("Creating a list");
-		createListMenuItem.add(new JMenuItem("Submenu Item 1"));
-		createListMenuItem.add(new JMenuItem("Item 2"));
+		createListMenuItem.add(new JMenuItem("To create a list, you can either duplicate a list that you currently have, or"));
+		createListMenuItem.add(new JMenuItem("you can create a new and empty list. To create a new list, click 'Add a List',"));
+		createListMenuItem.add(new JMenuItem("then fill in the text box with the name of your new list. Then press 'Submit', and"));
+		createListMenuItem.add(new JMenuItem("you will see that your new list is created. To duplicate a list based on an old"));
+		createListMenuItem.add(new JMenuItem("list, click 'Duplicate a List', then fill in the text box with the name of your"));
+		createListMenuItem.add(new JMenuItem("new list, and then click on the list whose items you'd like to be copied into your"));
+		createListMenuItem.add(new JMenuItem("new list. You then will see that your new list is created, and if you click on it,"));
+		createListMenuItem.add(new JMenuItem("you can see that it has the same items as your old list, and you can now edit it as"));
+		createListMenuItem.add(new JMenuItem("you please"));
+		// search a list help
 		JMenu searchMenuItem = new JMenu("Searching for an item");
-		searchMenuItem.add(new JMenuItem("Submenu Item 1"));
-		searchMenuItem.add(new JMenuItem("Submenu Item 2"));
+		searchMenuItem.add(new JMenuItem("To search for an item, select 'Search Items' and choose the store you would like to"));
+		searchMenuItem.add(new JMenuItem("search. Then click filter in the top right and use the categories to look for the"));
+		searchMenuItem.add(new JMenuItem("item that you are looking for. Click on the category your item is contained within, "));
+		searchMenuItem.add(new JMenuItem("and you will see the resulting items. From there you can view the items you were"));
+		searchMenuItem.add(new JMenuItem("looking for, and even add them to one of your lists."));
+		// edit a list help
 		JMenu editListMenuItem = new JMenu("Editing a list");
-		editListMenuItem.add(new JMenuItem("Submenu Item 1"));
-		editListMenuItem.add(new JMenuItem("Submenu Item 2"));
+		editListMenuItem.add(new JMenuItem("To edit a list, you can add an item, delete an item, or cross/uncross the item off"));
+		editListMenuItem.add(new JMenuItem("of the list."));
+		editListMenuItem.add(new JMenuItem(""));
+		editListMenuItem.add(new JMenuItem("Adding an Item"));
+		editListMenuItem.add(new JMenuItem("To add an item, click 'Search Items', select the store you'd like to"));
+		editListMenuItem.add(new JMenuItem("shop from, and then find the item you like, either through scrolling or using the"));
+		editListMenuItem.add(new JMenuItem("filter in the top right. There is an 'Add Item' button to the right of the items, "));
+		editListMenuItem.add(new JMenuItem("select that, then choose the list you'd like to add it to, and the quantity you'd"));
+		editListMenuItem.add(new JMenuItem("like to add, and then press 'Add Item.' The item you chose will now be in the list"));
+		editListMenuItem.add(new JMenuItem("you chose."));
+		editListMenuItem.add(new JMenuItem(""));
+		editListMenuItem.add(new JMenuItem("Deleting an Item"));
+		editListMenuItem.add(new JMenuItem("To delete an item, select the list you would like to delete it from, click on the"));
+		editListMenuItem.add(new JMenuItem("item that you want to delete so that the item is highlighted, and then press the"));
+		editListMenuItem.add(new JMenuItem("delete button in the top middle of the display. You must then click 'Yes' to delete"));
+		editListMenuItem.add(new JMenuItem("the item, or 'No' to cancel the deletion."));
+		editListMenuItem.add(new JMenuItem(""));
+		editListMenuItem.add(new JMenuItem("Crossing Off / Uncrossing an Item"));
+		editListMenuItem.add(new JMenuItem("To cross of an item, select the list you would like to delete it from, click on the"));
+		editListMenuItem.add(new JMenuItem("item that you want to delete so that the item is highlighted, and then press the"));
+		editListMenuItem.add(new JMenuItem("'Cross/Uncross' button in the top left of the display. Your item will now be crossed"));
+		editListMenuItem.add(new JMenuItem("off, as it is in your cart. To uncross an item off, select the item so that it is"));
+		editListMenuItem.add(new JMenuItem("highlighted, and click the same button. You will notice it now is removed from the cart."));
+		editListMenuItem.add(new JMenuItem(""));
+		editListMenuItem.add(new JMenuItem("To cancel a step at any time, press the red X in the top left of any pop-up display."));
+		// account help
 		JMenu accountHelpMenuItem = new JMenu("Account help");
-		accountHelpMenuItem.add(new JMenuItem("Submenu Item 1"));
-		accountHelpMenuItem.add(new JMenuItem("Submenu Item 2"));
+		accountHelpMenuItem.add(new JMenuItem("To logout, press the 'Account' menu in the top left of the display, press the logout"));
+		accountHelpMenuItem.add(new JMenuItem("button that is shown in the drop down menu, and you will be logged out."));
+		accountHelpMenuItem.add(new JMenuItem(""));
+		accountHelpMenuItem.add(new JMenuItem("To create a new account, logout and press 'Get Started' in the top left of the display."));
+		accountHelpMenuItem.add(new JMenuItem("Enter your username, email, and password and then press 'Submit.' You will then be"));
+		accountHelpMenuItem.add(new JMenuItem("logged in as your new account."));
 		// add help menu items to the account menu
 		helpMenu.add(createListMenuItem);
 		helpMenu.addSeparator();
