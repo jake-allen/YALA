@@ -907,7 +907,7 @@ public class UserInterface{
 	 */
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
-		storeStorage = new StoreStorage("stores.txt");		
+		storeStorage = new StoreStorage("storage/stores.txt");		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | 

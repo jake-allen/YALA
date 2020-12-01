@@ -37,7 +37,7 @@ public class ListStorage {
 	 * @param email of the user whose lists will be loaded into the vector 
 	 */
 	public ListStorage(String email) {
-		filename = email + ".txt";
+		filename = "storage/" + email + ".txt";
 		// create empty vector
 		lists = new Vector<List>();
 		// load lists (if any) from the user's file

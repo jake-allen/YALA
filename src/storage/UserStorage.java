@@ -20,7 +20,7 @@ public class UserStorage {
 	Map<String, String> passMap;
 	// Map<email+password, user-name> 
 	
-	final String storageFile = "users.txt";
+	final String storageFile = "storage/users.txt";
 	
 	// format of users.txt
 		// user-name,email,password
