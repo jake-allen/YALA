@@ -21,7 +21,8 @@ public class UserStorage {
 	// Map<email+password, user-name> 
 	
 	final String storageFile = "users.txt";
-	// format
+	
+	// format of users.txt
 		// user-name,email,password
 		// ... 
 		// user-name,email,password

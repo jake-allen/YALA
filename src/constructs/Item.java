@@ -17,7 +17,6 @@ public class Item {
 		this.store = storeName;
 	}
 	
-	//Sam added this
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -27,7 +26,6 @@ public class Item {
 		return result;
 	}
 
-	//also sam added this
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

@@ -9,6 +9,8 @@ import constructs.Product;
 
 public class StoreStorage {
 	Vector<Store> stores;
+	
+	// load stores in from the storage to the Vector
 	public StoreStorage(String filename) {
 		stores = new Vector<Store>();
 		Scanner scanner = null;
@@ -23,7 +25,7 @@ public class StoreStorage {
 				Store s = new Store(storeName);		
 				for (int i = 0; i < itemsInStore; i++) {
 					String[] productInfo = scanner.nextLine().split(",");
-					s.addProduct(new Product(productInfo));	//PLEASE BE SURE INFO IS CORRECT LENGTH
+					s.addProduct(new Product(productInfo));	
 				}				
 				stores.add(s);
 			}
@@ -33,6 +35,7 @@ public class StoreStorage {
 		}
 	}
 	
-	public Vector<Store> getStores(){return stores;}
-	
+	public Vector<Store> getStores(){
+		return stores;
+	}
 }

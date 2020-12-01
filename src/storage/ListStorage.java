@@ -15,10 +15,8 @@ import constructs.List;
 public class ListStorage {
 	Vector<List> lists;
 	String filename;
-	
-	// TODO only restoreLists() when a user logs out or when the program is exited
-	
-	// format
+		
+	// format of the storage email.txt
 		// listAmount
 		// listname,itemAmount
 		// item-name,item-quantity,item-store-name,itemID
@@ -35,14 +33,14 @@ public class ListStorage {
 		this.loadLists();
 	}
 	
-	//ADDED BY SAM
 	public List getList(String listName) {
 		for (List l : lists) {
 			if (l.getName().equals(listName)) {
 				return l;	
 			}
 		}
-		return null; 	//if list wasn't found
+		// if list wasn't found
+		return null; 	
 	}
 	
 	public void loadLists() {
@@ -112,16 +110,12 @@ public class ListStorage {
 				break;
 			}
 		}
-		// rewrite lists to the storage file
-		// restoreLists();
 	}
 	
 	public void addList(String listName){
 		List newList = new List(listName);
 		// add list to the vector
 		lists.add(newList);
-		// rewrite lists to the storage file
-		// restoreLists();
 	}
 	
 	public void copyList(String listName, String newListName) {
@@ -135,111 +129,36 @@ public class ListStorage {
 					newList.addItem(tempItem.getName(), tempItem.getQuantity(), tempItem.getStore());
 				}
 				lists.add(newList);
-				// restoreLists();
 				return;
 			}
 		}
 	}
 	
-	public void addItemToList(String listName, Item item) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.addItem(item);
-			}
-			return;
-		}
-	}
-	
 	public void addItemtoList(int index, Item item) {
 		lists.elementAt(index).addItem(item);
-		// restoreLists();
 	}
 	
 	public void addItemToList(int index, String itemName, String itemQuantity, String storeName) {
-		// add item to list
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
-		// rewrite lists to storage file
-		// restoreLists();
 	}
 	
 	public void addItemToList(int index, String itemName, int itemQuantity, String storeName) {
-		// add item to list
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
-		// rewrite lists to storage file
-		// restoreLists();
-	}
-	
-	public void addItemToList(String listName, String itemName, int itemQuantity, String storeName) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.addItem(itemName, itemQuantity, storeName);
-			}
-			// restoreLists();
-			return;
-		}
-	}
-	
-	public void addItemToList(String listName, String itemName, String itemQuantity, String storeName) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.addItem(itemName, itemQuantity, storeName);
-			}
-			// restoreLists();
-			return;
-		}
 	}
 	
 	public void deleteListItem(int index, String itemName, String itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
-		// restoreLists();
 	}
 	
 	public void deleteListItem(int index, String itemName, int itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
-		// restoreLists();
 	}
 	
 	public void deleteListItem(int index, Item item) {
 		lists.elementAt(index).removeItem(item);
-		// restoreLists();
 	}
 	
-	public void deleteListItem(String listName, Item item) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.removeItem(item);
-			}
-			// restoreLists();
-			return;
-		}
-	}
-	
-	public void deleteListItem(String listName, String itemName, String itemQuantity, String storeName) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.removeItem(itemName, itemQuantity, storeName);
-			}
-			// restoreLists();
-			return;
-		}
-	}
-	
-	public void deleteListItem(String listName, String itemName, int itemQuantity, String storeName) {
-		for(int i = 0; i < lists.size(); i++) {
-			List temp = lists.elementAt(i);
-			if(temp.getName() == listName) {
-				temp.removeItem(itemName, itemQuantity, storeName);
-			}
-			// restoreLists();
-			return;
-		}
-	}
-			
+	// update list storage
 	public void restoreLists() {
 		// remove file's content
 		try {
@@ -278,6 +197,4 @@ public class ListStorage {
 			e.printStackTrace();
 		}
 	}
-	
-	// TODO create storage in database (iteration III)
 }

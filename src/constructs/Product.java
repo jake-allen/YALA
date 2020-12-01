@@ -1,7 +1,5 @@
 package constructs;
 
-import java.util.Vector;
-
 /*
  * The product represents a product in the store,
  * NOT an item on a list

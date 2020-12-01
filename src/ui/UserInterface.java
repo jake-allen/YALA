@@ -1,13 +1,10 @@
 package ui;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,10 +27,14 @@ public class UserInterface{
 	
 	static JPanel cards;
 	static CardLayout cl;
-	final static String LOGGEDIN = "Logged in User Card"; // card that shows the loggedInMenuBar, (TODO add the search display/items display/add item)
-	final static String NEWUSER = "New User Card"; // card that shows newUserMenuBar to select create account or log in
-	final static String CREATEACCOUNT = "Create Account Card"; // card for creating account 
-	final static String LOGIN = "Log in User Card"; // card for logging in 
+	// card that shows the loggedInMenuBar and lists
+	final static String LOGGEDIN = "Logged in User Card"; 
+	// card that shows newUserMenuBar to select create account or log in
+	final static String NEWUSER = "New User Card"; 
+	// card for creating a new account 
+	final static String CREATEACCOUNT = "Create Account Card"; 
+	// card for logging in to an existing account
+	final static String LOGIN = "Log in User Card"; 
 	
 	public static JPanel loginCard() {
 		// create text fields
@@ -61,11 +62,10 @@ public class UserInterface{
 				// get user-name and password that the user entered
 				String email = idField.getText();
 				String password = new String(passwordField.getPassword());
-				// validate and see if the login is correct TODO
+				// validate to see if the login is correct 
 				if(userStorage.getUser(email, password) != null) {
 					user = userStorage.getUser(email, password);
 					loggedIn = true;
-					
 					// refresh frame to show the user-name of the logged in user
 					frame.dispose();
 					createAndShowGUI();
@@ -73,7 +73,7 @@ public class UserInterface{
 					cl.show(cards, LOGGEDIN);
 				}
 				else {
-					System.out.println("ERROR: invalid login"); // TODO ACCOUNT
+					System.out.println("ERROR: invalid login"); 
 					// switch back to the new user card 
 					cl.show(cards, NEWUSER);
 				}
@@ -113,8 +113,6 @@ public class UserInterface{
 		menuBar.add(Box.createHorizontalGlue());
 		menuBar.add(userDisplayMenu);
 		// create account menu items
-		JMenuItem usernameMenuItem = new JMenuItem("Change Username");
-		JMenuItem passwordMenuItem = new JMenuItem("Change Password");
 		JMenuItem logoutMenuItem = new JMenuItem("Logout");
 		// create account menu listener
 		logoutMenuItem.addActionListener(new ActionListener() {
@@ -132,10 +130,6 @@ public class UserInterface{
 			}
 		});
 		// add account menu items to the account menu
-		accountMenu.add(usernameMenuItem);
-		accountMenu.addSeparator();
-		accountMenu.add(passwordMenuItem);
-		accountMenu.addSeparator();
 		accountMenu.add(logoutMenuItem);
 		// create help menu items
 		JMenu createListMenuItem = new JMenu("Creating a list");
@@ -173,7 +167,7 @@ public class UserInterface{
 		JMenuItem createAccountMenuItem = new JMenuItem("Create account");
 		// add action listeners
 		loginMenuItem.addActionListener(new ActionListener() {
-			// selected login TODO
+			// selected login 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
@@ -188,10 +182,9 @@ public class UserInterface{
 				cl.show(cards, CREATEACCOUNT);
 			}
 		});
-		//SAM'S DEBUG MODE
-		JMenuItem debugMenuItem = new JMenuItem("Debug");	//added by sam
+		//SAM'S DEBUG MODE - TODO REMOVE
+		JMenuItem debugMenuItem = new JMenuItem("Debug");	
 		debugMenuItem.addActionListener(new ActionListener() {
-			// selected create account 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(e.getActionCommand());
@@ -202,7 +195,6 @@ public class UserInterface{
 				cl.show(cards, LOGGEDIN);
 			}
 		});
-		
 		// add the menu items to the menu
 		accountMenu.add(loginMenuItem);
 		accountMenu.addSeparator();
@@ -244,25 +236,18 @@ public class UserInterface{
 				String password = new String(passwordField.getPassword());
 				String username = usernameField.getText();
 				String email = emailField.getText();
-				
-				// validate input TODO
-				// password must be unique TODO
-				//validate input
+				// validate input
 				if(userStorage.getUser(email, password) == null) {
 					// create new user and add it
 					user = new User(username, email, password);
 					userStorage.addUser(user);
-
 					// tell UserInterface that the user is now logged in
 					loggedIn = true;
-					
 					// refresh frame to show the user-name of the logged in user
 					frame.dispose();
 					createAndShowGUI();
-					
 					// switch to the logged in card
 					cl.show(cards, LOGGEDIN);
-					
 					// print for testing 
 					System.out.println("user: " + user.getID());
 					System.out.println("email: " + user.getEmail());
@@ -291,7 +276,6 @@ public class UserInterface{
 		return textPane;
 	}
 	
-	// TODO tutorial said to add this, might not be doing anything
 	public void itemStateChanged(ItemEvent evt) {
 	    CardLayout cl = (CardLayout)(cards.getLayout());
 	    cl.show(cards, (String)evt.getItem());
@@ -300,7 +284,7 @@ public class UserInterface{
 	public static JPanel loggedInCard() {
 		JPanel panel = new JPanel();		
 		
-		if(loggedIn) {	//is this condition even necessary?			
+		if(loggedIn) {	
 			Vector<List> lists = user.getListStorage().getLists();
 			
 			// print lists and items for debugging
@@ -324,7 +308,7 @@ public class UserInterface{
 						System.out.println(command + " list clicked");
 						itemListManager = new JFrame(command);
 						itemListManager.add(itemInListManagerField(list));
-						itemListManager.pack();	//sam - do i need this?
+						itemListManager.pack();	
 						itemListManager.setVisible(true);
 						
 						// print lists and items for debugging
@@ -439,14 +423,13 @@ public class UserInterface{
 				System.out.println("Submit add list pressed " + nameField.getText());
 				// add list
 				ListStorage storage = user.getListStorage();
-				//storage.addList(nameField.getText());
-				
-				//Added by Sam
-				if (!storage.hasList(nameField.getText()))
+
+				if (!storage.hasList(nameField.getText())) {
 					storage.addList(nameField.getText());
-				else
+				}
+				else {
 					System.out.println("Cannot have two lists of same name");
-				
+				}
 				// close add list frame
 				popUpAddFrame.dispose();
 				// refresh logged-in frame and components
@@ -658,7 +641,7 @@ public class UserInterface{
 		
 		JLabel newNameLabel = new JLabel("Name of new list: ");
 		final JFormattedTextField newNameField = new JFormattedTextField();
-		newNameField.setColumns(20);	//TODO - have error for too many characters?
+		newNameField.setColumns(20);
 		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		//labelPane.add(nameLabel);
@@ -684,7 +667,7 @@ public class UserInterface{
 						cl.show(cards, LOGGEDIN);
 					} else {
 						System.out.println("Cannot have two lists of same name");
-						popUpAddFrame.dispose();	//should it dispose?
+						popUpAddFrame.dispose();	
 					}
 				}
 			});
@@ -708,13 +691,12 @@ public class UserInterface{
 		
 	}
 	
-	//Sam's
 	public static JPanel itemInListManagerField(final List list) {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		JMenuBar optionBar = new JMenuBar();
 		String[] columnNames = {"Item", "Store", "NumLeft"};
 		
-		//get items from current list
+		// get items from current list
 		Vector<Item> items = list.getItems();
 		Object[][] data = new Object[items.size()][];
 		for (int i = 0; i < items.size(); i++) {
@@ -723,12 +705,13 @@ public class UserInterface{
 			stuff[1] = items.get(i).getStore();
 			int quantity = items.get(i).getQuantity();
 			
-			//THIS LOGIC IS CRITICAL - CURRENTLY ANY NEGATIVE QUANTITY IS CONSIDERED CROSSED OFF
-			//TODO - Consider how to implement if quantity happens to be zero
-			if (quantity < 0)
+			// TODO - Consider how to implement if quantity happens to be zero
+			if (quantity < 0) {
 				stuff[2] = "Complete ("+Integer.toString(quantity*-1)+" in cart)";
-			else
+			}
+			else {
 				stuff[2] = Integer.toString(quantity);
+			}
 			data[i] = stuff;
 		}
 		
@@ -740,10 +723,10 @@ public class UserInterface{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int row = table.getSelectedRow();				
-				if (row >= 0) {	//index of item?
-					//Do stuff - item.crossOff/uncross do the exact same thing
+				if (row >= 0) {	
+					// do stuff - item.crossOff/uncross do the exact same thing
 					list.getItems().get(row).crossOff();
-					//Refresh table
+					// refresh table
 					itemListManager.dispose();
 					itemListManager = new JFrame(list.getName());
 					itemListManager.add(itemInListManagerField(list));
@@ -769,7 +752,7 @@ public class UserInterface{
 						public void actionPerformed(ActionEvent e) {
 							list.removeItem(list.getItems().get(row));
 							confirmPrompt.dispose();
-							//Refresh table
+							// refresh table
 							itemListManager.dispose();
 							itemListManager = new JFrame(list.getName());
 							itemListManager.add(itemInListManagerField(list));
@@ -795,7 +778,7 @@ public class UserInterface{
 			}			
 		});		
 				
-		//add stuff
+		// add components
 		optionBar.add(crossButton);
 		optionBar.add(deleteButton);
 		optionBar.add(new JLabel("Highlight item you wish to modify."),BorderLayout.EAST);
@@ -815,10 +798,10 @@ public class UserInterface{
 		newUserCard.add(newUserMenuBar(), BorderLayout.NORTH);
 		
 		// create card for creating an account
-		JPanel createAccountCard = createAccountCard();  // TODO fix layout, make standardized
+		JPanel createAccountCard = createAccountCard(); 
 		
 		// create card for logging in 
-		JPanel loginCard = loginCard(); // TODO fix layout, make standardized
+		JPanel loginCard = loginCard(); 
 		
 		// create card for logged in
 		JPanel userCard = loggedInCard(); 

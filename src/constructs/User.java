@@ -3,9 +3,9 @@ package constructs;
 import storage.ListStorage;
 
 public class User {
-	String id; // unique user-name / display name
+	String id; 			// unique user-name / display name
 	String email;
-	String password; // encrypted
+	String password; 
 	ListStorage lists;
 	
 	public String getID() {
@@ -35,13 +35,7 @@ public class User {
 	public User(String id, String email, String password) {
 		this.id = id;
 		this.email = email;
-		this.password = password; // TODO needs encryption
+		this.password = password; 
 		lists = new ListStorage(this.email);
 	}
-	
-	// TODO changeID
-	// TODO changeEmail
-	// TODO changePassword
-	
-	// ^ all should update the database?
 }
