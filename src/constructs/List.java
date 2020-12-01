@@ -26,6 +26,25 @@ public class List {
 	}
 	
 	/**
+	 * Gets the quantity of specific item
+	 * 
+	 * @param item item to get quantity of
+	 * @return item's quantity
+	 */
+	public int getItemQuantity(Item item) {
+		int index;
+		//Item must exist within list
+		if(items.contains(item)) {
+			items.indexOf(item);
+			index = items.indexOf(item);
+			return items.get(index).getQuantity();
+		} else
+			//No item can have 0 as a quantity
+			return 0;
+	}
+	
+	
+	/**
 	 * Gets the items of the list. If empty, it returns an empty vector.
 	 * 
 	 * @return the vector of the lists's items
