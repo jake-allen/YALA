@@ -37,6 +37,165 @@ public class UserInterface{
 	// card for logging in to an existing account
 	final static String LOGIN = "Log in User Card"; 
 
+//====================SYSTEM OPERATIONS (for JUnit)================================
+	/**
+	 * Gets lists in user's list storage.
+	 * 
+	 * @return lists in user's list storage
+	 */
+	public static Vector<List> getLists(){
+		return user.getListStorage().getLists();
+	}
+	
+	/**
+	 * Gets user's list storage
+	 * 
+	 * @return user's list storage
+	 */
+	public static ListStorage getListStorage() {
+		return user.getListStorage();
+	}
+	
+	/**
+	 * Gets the storage holding all the stores & their inventories.
+	 * 
+	 * @return storage holding all the stores.
+	 */
+	public static StoreStorage getStoreStorage() {
+		return storeStorage;
+	}
+	
+	/**
+	 * Gets the user's list with the specified name.
+	 * 
+	 * @param listName name of list
+	 * @return list with given name
+	 */
+	public static List getList(String listName) {
+		return user.getListStorage().getList(listName);
+	}
+	
+	/**
+	 * Reads out the changes in user's list storage (e.g. adding a list)
+	 *	to the the file storing the user's lists
+	 */
+	public static void restoreLists() {
+		user.getListStorage().restoreLists();
+	}
+	
+	/**
+	 * Gets the current, logged in user.
+	 * 
+	 * @return the present user
+	 */
+	public static User getUser() {
+		return user;
+	}	
+	
+	/**
+	 * Adds list with given name to user's list storage
+	 * 
+	 * @param newList name of new list
+	 * @return if adding the list was successful
+	 */
+	public static boolean addList(String newList) {
+		ListStorage storage = user.getListStorage();
+		if (!storage.hasList(newList)) {
+			storage.addList(newList);
+			return true;
+		}
+		else {
+			System.out.println("ERROR: Cannot have two lists of same name");
+			return false;
+		}		
+	}
+	
+	/**
+	 * Copies list with given name in user's list storage to a new list (name
+	 *	given)
+	 * 
+	 * @param oldList name of list to be copied
+	 * @param newList name of new list
+	 * @return if copying list was successful
+	 */
+	public static boolean copyList(String oldList, String newList) {
+		ListStorage storage = user.getListStorage();
+		if (!storage.hasList(newList)){	
+			if(storage.hasList(oldList)) {
+				storage.copyList(oldList, newList);
+				return true;
+			}
+			else {
+				System.out.println("ERROR: list "+oldList+" does not exist");
+				return false;
+			}
+		} else {
+			System.out.println("ERROR: Cannot have two lists of same name");
+			return false;
+		}
+	}
+	
+	/**
+	 * Delete's list of given name from user's list storage
+	 *
+	 * @param name of list to be deleted
+	 */
+	public static void deleteList(String listName) {
+		ListStorage storage = user.getListStorage();
+		if(storage.hasList(listName)) 
+			storage.deleteList(listName);
+		else 
+			System.out.println("ERROR: list does not exist");
+	}
+	
+	/**
+	 * Crosses item from user's given list
+	 * 
+	 * @param list the list in which the item to be crossed is in
+	 * @param row the index having the item to be crossed
+	 * @return if cross operation was successful
+	 */
+	public static boolean crossItem(List list, int row) {
+		if (row >= 0) {
+			list.getItems().get(row).crossOff();
+			return true;
+		} else {
+			System.out.println("ERROR: Line not selected");
+			return false;
+		}		
+	}
+	
+	/**
+	 * Unrosses item from user's given list
+	 * 
+	 * @param list the list in which the item to be uncrossed is in
+	 * @param row the index having the item to be uncrossed
+	 * @return if uncross operation was successful
+	 */
+	public static boolean uncrossItem(List list, int row) {
+		return crossItem(list,row);
+	}
+	
+	/**
+	 * Deletes item of given index from user's given list
+	 * 
+	 * @param list the list in which the item to be deleted is in
+	 * @param row the index having the item to be deleted
+	 * @return if deleting the item was successful
+	 */
+	public static boolean deleteItem(List list, int row) {
+		if (row >= 0) {
+			list.removeItem(list.getItems().get(row));
+			return true;
+		} else {
+			System.out.println("ERROR: Invalid item");
+			return false;
+		}
+		
+	}
+	
+	//======================SWING CARDS====================================
+
 	/**
 	 * Creates a JPanel swing component with fields for the user's ID and 
 	 * password, and handles the submit login and cancel login user actions.

@@ -21,7 +21,6 @@ import storage.ListStorage;
 import storage.Store;
 
 public class ItemSearch extends JFrame implements ActionListener {
-	
 	private static final long serialVersionUID = -4192343028680787613L;
 	Vector<Store> stores;
 	Vector<JButton> storeButtons;
@@ -52,6 +51,54 @@ public class ItemSearch extends JFrame implements ActionListener {
 		setVisible(true);
 		user = u;
 	}
+		//==================SYSTEM OPERATIONS (for JUnit)======================
+	
+	boolean tableVisible = false;
+	
+	/**
+	* returns if created JTable has been created and is visible to user
+	*
+	* @return if table is visible
+	*/
+	public boolean isTableVisible() {
+		return tableVisible;
+	}
+	
+	/**
+	* creates table with store of specified index
+	*
+	* @param i index of store in StoreStorage
+	*/
+	public void setStoreAndSwitch(int i) {
+		mainStore = stores.get(i);
+		makeTable();
+	}
+	
+	/**
+	* sets table filters to specified product types
+	*
+	* @param type1 the product type to be sorted by
+	* @param type2 the product extra to be sorted by
+	*/
+	public void setFilter(String type1, String type2) {
+		sorter.setRowFilter(RowFilter.regexFilter(type1, 1));
+		sorter.setRowFilter(RowFilter.regexFilter(type2, 2));
+	}
+	
+	/**
+	* gets specifications of item at the specified row in the table
+	*
+	* @param row row of item in table
+	* @return values of item in the table
+	*/
+	public String getItemNameAt(int row) {
+		final String name = table.getModel().getValueAt(row, 0) + " "
+				+ table.getModel().getValueAt(row, 1) + " "
+				+ table.getModel().getValueAt(row, 2);
+		return name;
+	}
+	
+	//=============================================================
 	
 	/**
 	 * Adds the button to the vector of buttons that are used to display each 
@@ -100,6 +147,8 @@ public class ItemSearch extends JFrame implements ActionListener {
 		pack();
 		filterMenu();
 		setVisible(true);
+		
+		tableVisible = true;
 	}
 	
 	/**
