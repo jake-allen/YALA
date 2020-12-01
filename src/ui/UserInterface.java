@@ -27,6 +27,7 @@ public class UserInterface{
 	
 	static JPanel cards;
 	static CardLayout cl;
+
 	// card that shows the loggedInMenuBar and lists
 	final static String LOGGEDIN = "Logged in User Card"; 
 	// card that shows newUserMenuBar to select create account or log in
@@ -35,7 +36,13 @@ public class UserInterface{
 	final static String CREATEACCOUNT = "Create Account Card"; 
 	// card for logging in to an existing account
 	final static String LOGIN = "Log in User Card"; 
-	
+
+	/**
+	 * Creates a JPanel swing component with fields for the user's ID and 
+	 * password, and handles the submit login and cancel login user actions.
+	 * 
+	 * @return login JPanel for the CardLayout
+	 */
 	public static JPanel loginCard() {
 		// create text fields
 		final JTextField idField = new JTextField(20);
@@ -93,7 +100,14 @@ public class UserInterface{
 		loginPanel.add(cancelButton);
 		return loginPanel;
 	}
-	
+
+	/**
+	 * Creates a JMenuBar swing component with menu items Account and Help.
+	 * Account contains the logout option. Help contains integrated 
+	 * documentation for helping the user navigate the application
+	 * 
+	 * @return menu JMenuBar for logged in users
+	 */
 	public static JMenuBar loggedInMenuBar() {
 		// create menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -155,6 +169,13 @@ public class UserInterface{
 		return menuBar;
 	}
 	
+	/**
+	 * Creates a JMenuBar swing component with menu item Get Started which 
+	 * contains menu options of login and create account. It contains the
+	 * handler for the login and create account user actions.
+	 * 
+	 * @return menu JMenuBar for non-logged in users
+	 */
 	public static JMenuBar newUserMenuBar() {
 		// create menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -204,6 +225,13 @@ public class UserInterface{
 		return menuBar;
 	}
 	
+	/**
+	 * Creates a JPanel swing component with fields for a username, email,
+	 * and password, and a submit and cancel button. It contains the handler 
+	 * for the submit and cancel create account user actions.
+	 * 
+	 * @return create account JPanel for the CardLayout
+	 */
 	public static JPanel createAccountCard() {
 		// create the text fields
 		final JTextField usernameField = new  JTextField(20);
@@ -276,18 +304,22 @@ public class UserInterface{
 		return textPane;
 	}
 	
-	public void itemStateChanged(ItemEvent evt) {
-	    CardLayout cl = (CardLayout)(cards.getLayout());
-	    cl.show(cards, (String)evt.getItem());
-	}
-	
+	/**
+	 * Creates a JPanel swing component that displays the logged in user's
+	 * lists as buttons, the logged in menu bar, and the buttons to Search 
+	 * Items, Add a List, Duplicate a List, and Delete a List. It contains the 
+	 * handler for the Search Items, Add a List, Delete a List, and the 
+	 * Copy/Duplicate a List user actions.
+	 * 
+	 * @return logged in JPanel for the CardLayout
+	 */
 	public static JPanel loggedInCard() {
 		JPanel panel = new JPanel();		
 		
 		if(loggedIn) {	
 			Vector<List> lists = user.getListStorage().getLists();
 			
-			// print lists and items for debugging
+			// print lists and items for debugging TODO REMOVE??
 			for(int i = 0; i < lists.size(); i++) {
 				List list = lists.elementAt(i);
 				Vector<Item> items = list.getItems();
@@ -311,7 +343,7 @@ public class UserInterface{
 						itemListManager.pack();	
 						itemListManager.setVisible(true);
 						
-						// print lists and items for debugging
+						// print lists and items for debugging TODO REMOVE???
 						for(int i = 0; i < lists.size(); i++) {
 							List list = lists.elementAt(i);
 							Vector<Item> items = list.getItems();
@@ -357,7 +389,7 @@ public class UserInterface{
 				popUpAddFrame.setVisible(true);
 			}
 		});
-		JButton copyListButton = new JButton("Copy/Duplicate a List");
+		JButton copyListButton = new JButton("Duplicate a List");
 		copyListButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -377,12 +409,10 @@ public class UserInterface{
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//ItemSearch is = new ItemSearch(stores, user);
 				ItemSearch is = new ItemSearch(storeStorage.getStores(), user);
 			}
 		});
 
-		//order changed
 		listPanel.add(searchButton);	
 		listPanel.add(addListButton);
 		listPanel.add(copyListButton);	
@@ -391,28 +421,32 @@ public class UserInterface{
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(loggedInMenuBar(), BorderLayout.PAGE_START);
-		//mainPanel.add(panel, BorderLayout.LINE_END);
-		//mainPanel.add(listPanel, BorderLayout.CENTER);
 		mainPanel.add(listPanel, BorderLayout.CENTER);
 		mainPanel.add(panel, BorderLayout.PAGE_END);
 		return mainPanel;
 	}
 	
+	/**
+	 * Creates a JPanel swing component that is a pop-up text field with a
+	 * field for the user to enter the list name, and buttons to submit or 
+	 * cancel. It handles the Submit create a list and the cancel creating a
+	 * list user actions's
+	 * 
+	 * @return pop-up JPanel for adding a list
+	 */
 	public static JPanel addListTextField() {
 		JPanel mainPanel = new JPanel();
-		
+		// create text field and label
 		JLabel nameLabel = new JLabel("List name: ");
 		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
-		
+		// create panel for the text field and label
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		labelPane.add(nameLabel);
-		
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(nameField);
-		
+		// create buttons
 		JPanel buttonPane = new JPanel();
-		
 		JButton submitButton = new JButton("Submit");
 		JButton cancelButton = new JButton("Cancel");
 		buttonPane.add(submitButton);
@@ -446,30 +480,25 @@ public class UserInterface{
 				popUpAddFrame.dispose();
 			}
 		});
-		
+		// add components
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(labelPane, BorderLayout.CENTER);
 		mainPanel.add(fieldPane, BorderLayout.LINE_END);
 		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
-		
 		return mainPanel;
 	}
 	
+	/*
 	public static JPanel deleteListTextField() {
 		JPanel mainPanel = new JPanel();
-		
 		JLabel nameLabel = new JLabel("List name to delete: ");
 		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
-		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		labelPane.add(nameLabel);
-		
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(nameField);
-		
 		JPanel buttonPane = new JPanel();
-		
 		JButton submitButton = new JButton("Submit");
 		JButton cancelButton = new JButton("Cancel");
 		buttonPane.add(submitButton);
@@ -502,21 +531,29 @@ public class UserInterface{
 				popUpAddFrame.dispose();
 			}
 		});
-		
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(labelPane, BorderLayout.CENTER);
 		mainPanel.add(fieldPane, BorderLayout.LINE_END);
 		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
-		
 		return mainPanel;
-	}
+	}*/
 	
+	/**
+	 * Creates a JPanel swing component that is a pop-up display of all of the
+	 * logged-in user's lists as buttons, allowing the user to select one 
+	 * to delete. It then opens a prompt asking the user if they are sure
+	 * they want to delete list name list, with the button options of Yes and 
+	 * No. It contains the handlers for selecting a list to delete, deleting 
+	 * the list, and canceling the deletion user actions. 
+	 * 
+	 * @return JPanel to choose which list to delete
+	 */
 	public static JPanel deleteListButtonField() {
 		JPanel mainPanel = new JPanel();		
 		JLabel nameLabel = new JLabel("List to delete: ");
-		
 		JPanel buttonPane = new JPanel();
 		ListStorage storage = user.getListStorage();
+		// create a button for each list
 		for (int i = 0; i < storage.getLists().size(); i++) {
 			JButton listButton = new JButton(storage.getLists().get(i).getName());
 			List list = storage.getLists().elementAt(i);
@@ -564,35 +601,29 @@ public class UserInterface{
 				popUpAddFrame.dispose();
 			}
 		});
-		
+		// add components
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(nameLabel, BorderLayout.LINE_END);
 		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
-		
 		return mainPanel;
 	}
 	
+	/*
 	public static JPanel copyListTextField() {
 		JPanel mainPanel = new JPanel();
-		
 		JLabel nameLabel = new JLabel("List to copy: ");
 		final JFormattedTextField nameField = new JFormattedTextField();
 		nameField.setColumns(20);
-		
 		JLabel newNameLabel = new JLabel("Name of new list: ");
 		final JFormattedTextField newNameField = new JFormattedTextField();
 		newNameField.setColumns(20);
-		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
 		labelPane.add(nameLabel);
 		labelPane.add(newNameLabel);
-		
 		JPanel fieldPane = new JPanel(new GridLayout(0, 1));
 		fieldPane.add(nameField);
 		fieldPane.add(newNameField);
-		
 		JPanel buttonPane = new JPanel();
-		
 		JButton submitButton = new JButton("Submit");
 		JButton cancelButton = new JButton("Cancel");
 		buttonPane.add(submitButton);
@@ -626,28 +657,32 @@ public class UserInterface{
 				popUpAddFrame.dispose();
 			}
 		});
-		
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(labelPane, BorderLayout.CENTER);
 		mainPanel.add(fieldPane, BorderLayout.LINE_END);
 		mainPanel.add(buttonPane, BorderLayout.PAGE_END);
-		
-		return mainPanel;
-		
+		return mainPanel;	
 	}
+	*/
+	
+	/**
+	 * Creates a JPanel swing component for copying a list. It allows the
+	 * user to enter a name for the new list, and select the list it would like
+	 * to copy. It contains the handlers for duplicating a list and canceling
+	 * the duplication user actions.
+	 * 
+	 * @return JPanel with the lists shown and a text field for duplicating
+	 * a list that already exists
+	 */
 	public static JPanel copyListButtonField() {
 		JPanel mainPanel = new JPanel();		
 		JLabel nameLabel = new JLabel("List to copy: ");		
-		
 		JLabel newNameLabel = new JLabel("Name of new list: ");
 		final JFormattedTextField newNameField = new JFormattedTextField();
 		newNameField.setColumns(20);
-		
 		JPanel labelPane = new JPanel(new GridLayout(0, 1));
-		//labelPane.add(nameLabel);
 		labelPane.add(newNameLabel);
 		labelPane.add(newNameField);
-		
 		JPanel buttonPane = new JPanel();
 		buttonPane.add(nameLabel);
 		ListStorage storage = user.getListStorage();
@@ -682,20 +717,27 @@ public class UserInterface{
 			}
 		});
 		buttonPane.add(cancelButton);	
-		
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.add(buttonPane, BorderLayout.CENTER);
 		mainPanel.add(labelPane, BorderLayout.PAGE_START);
-		
 		return mainPanel;
 		
 	}
 	
+	/**
+	 * Creates a JPanel swing pop-up component that displays the items in a
+	 * certain list and gives the user the ability to cross off, uncross, or
+	 * delete items from the list. It contains the handlers for crossing off,
+	 * uncrossing off, and deleting an item user actions.
+	 * 
+	 * @param list to display the items of
+	 * @return JPanel with a list's items and options to cross off and uncross 
+	 * and delete
+	 */
 	public static JPanel itemInListManagerField(final List list) {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		JMenuBar optionBar = new JMenuBar();
 		String[] columnNames = {"Item", "Store", "NumLeft"};
-		
 		// get items from current list
 		Vector<Item> items = list.getItems();
 		Object[][] data = new Object[items.size()][];
@@ -704,7 +746,6 @@ public class UserInterface{
 			stuff[0] = items.get(i).getName();
 			stuff[1] = items.get(i).getStore();
 			int quantity = items.get(i).getQuantity();
-			
 			// TODO - Consider how to implement if quantity happens to be zero
 			if (quantity < 0) {
 				stuff[2] = "Complete ("+Integer.toString(quantity*-1)+" in cart)";
@@ -717,7 +758,7 @@ public class UserInterface{
 		
 		DefaultTableModel model = new DefaultTableModel(data, columnNames);
 		JTable table = new JTable(model);
-		
+		// create cross and uncross button
 		JButton crossButton = new JButton("Cross/Uncross");
 		crossButton.addActionListener(new ActionListener() {
 			@Override
@@ -737,7 +778,7 @@ public class UserInterface{
 				}				
 			}			
 		});		
-		
+		// create delete button
 		JButton deleteButton = new JButton("Delete");
 		deleteButton.addActionListener(new ActionListener() {
 			@Override
@@ -776,21 +817,22 @@ public class UserInterface{
 					System.out.println("ERROR: Line not selected");
 				}
 			}			
-		});		
-				
+		});			
 		// add components
 		optionBar.add(crossButton);
 		optionBar.add(deleteButton);
 		optionBar.add(new JLabel("Highlight item you wish to modify."),BorderLayout.EAST);
-		mainPanel.add(optionBar,BorderLayout.PAGE_START);
-		
-		mainPanel.add(table,BorderLayout.CENTER);
-		
-		mainPanel.add(new JScrollPane(table),BorderLayout.CENTER);
-		
+		mainPanel.add(optionBar, BorderLayout.PAGE_START);
+		mainPanel.add(table, BorderLayout.CENTER);
+		mainPanel.add(new JScrollPane(table), BorderLayout.CENTER);
 		return mainPanel;
 	}
 	
+	/**
+	 * Adds the cards for the CardLayout to the main swing container
+	 * 
+	 * @param pane to add the cards too
+	 */
 	public static void addComponents(Container pane) {
 		// create card for new user
 		JPanel newUserCard = new JPanel();
@@ -816,20 +858,12 @@ public class UserInterface{
 		// add cards to the pane
 		pane.add(cards, BorderLayout.CENTER);
 	}
-	
-	//check for validity of string?
-	public static void switchCard(String card) {
-		CardLayout cl = (CardLayout)(cards.getLayout());
-		cl.show(cards, card);
-	}
-	
-	public static void login(String email, String password) {
-		if(userStorage.getUser(email, password) != null) {
-			user = userStorage.getUser(email, password);
-			loggedIn = true;
-		}
-	}
-	
+
+	/**
+	 * Gets the users of the application, creates the frame with components
+	 * and default behaviors, and displays the frame/GUI. Contains the handler
+	 * for the user action of closing the GUI.
+	 */
 	private static void createAndShowGUI() {
 		userStorage = new UserStorage();
 		// set up window
@@ -865,6 +899,12 @@ public class UserInterface{
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Loads the stores and their inventories and schedules a Swing Runnable 
+	 * that displays the GUI
+	 * 
+	 * @param args the user gives from the command line
+	 */
 	public static void main(String[] args) {
 		// set the application to the current system's look and feel
 		storeStorage = new StoreStorage("stores.txt");		

@@ -5,18 +5,108 @@ public class Item {
 	int quantity;
 	String store;
 	
+	/**
+	 * Creates an item with name itemName, quantity quantity, and store 
+	 * storeName.
+	 * 
+	 * @param itemName the name to give the new item
+	 * @param quantity the quantity to give the new item
+	 * @param storeName the store to give the new item
+	 */
 	Item(String itemName, String quantity, String storeName){
 		this.quantity = Integer.parseInt(quantity);
 		this.name = itemName;
 		this.store = storeName;
 	}
 	
+	/**
+	 * Creates an item with name itemName, quantity quantity, and store 
+	 * storeName.
+	 * 
+	 * @param itemName the name to give the new item
+	 * @param quantity the quantity to give the new item
+	 * @param storeName the store to give the new item
+	 */
 	Item(String itemName, int quantity, String storeName){
 		this.quantity = quantity;
 		this.name = itemName;
 		this.store = storeName;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param quantity the quantity to set the item's quantity to
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	
+	/**
+	 * Effectively crosses off an item from the list. If the item has a
+	 * negative quantity -x that means there are x items in the cart and the
+	 * item is crossed off. If it has a positive quantity that means it is
+	 * not crossed off and there are 0 items in the cart as it has yet to 
+	 * be found and added.
+	 */
+	public void crossOff() {
+		this.quantity *= -1;
+	}
+	
+	/**
+	 * Effectively uncrosses an item from the list. If the item has a
+	 * negative quantity -x that means there are x items in the cart and the
+	 * item is crossed off. If it has a positive quantity that means it is
+	 * not crossed off and there are 0 items in the cart as it has yet to 
+	 * be found and added.
+	 */
+	public void uncross() {
+		this.quantity *= -1;
+	}
+	
+	/**
+	 * Gets the name of the item.
+	 * 
+	 * @return the name of the item
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Gets the quantity of the item.
+	 * 
+	 * @return the quantity of the item
+	 */
+	public int getQuantity() {
+		return this.quantity;
+	}
+	
+	/**
+	 * Gets the name of the store the item can be found at.
+	 * 
+	 * @return the name of the store at which the item can be found
+	 */
+	public String getStore() {
+		return this.store;
+	}
+	
+	/**
+	 * Returns true if the item is crossed off, otherwise it returns false. An
+	 * item is considered crossed off if its quantity is negative.
+	 * 
+	 * @return
+	 */
+	public boolean isCrossedOff(){
+		if(quantity < 0){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Generates a hash code for a given Item.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -26,6 +116,9 @@ public class Item {
 		return result;
 	}
 
+	/**
+	 * Determines whether two items are equal.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -46,36 +139,5 @@ public class Item {
 		} else if (!store.equals(other.store))
 			return false;
 		return true;
-	}
-	
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	
-	public void crossOff() {
-		this.quantity *= -1;
-	}
-	
-	public void uncross() {
-		this.quantity *= -1;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
-	public int getQuantity() {
-		return this.quantity;
-	}
-	
-	public String getStore() {
-		return this.store;
-	}
-	
-	public boolean isCrossedOff(){
-		if(quantity < 0){
-			return true;
-		}
-		return false;
 	}
 }

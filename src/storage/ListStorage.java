@@ -21,10 +21,21 @@ public class ListStorage {
 		// listname,itemAmount
 		// item-name,item-quantity,item-store-name,itemID
 	
+	/**
+	 * Returns a vector containing all of the lists of the current user.
+	 * 
+	 * @return vector of lists
+	 */
 	public Vector<List> getLists() {
 		return this.lists;
 	}
 	
+	/**
+	 * Establishes the filename of the list storage and loads the ListStorage 
+	 * lists from the particular user's list storage file into the list vector.
+	 * 
+	 * @param email of the user whose lists will be loaded into the vector 
+	 */
 	public ListStorage(String email) {
 		filename = email + ".txt";
 		// create empty vector
@@ -33,6 +44,13 @@ public class ListStorage {
 		this.loadLists();
 	}
 	
+	/**
+	 * Returns a list with the list name of listName if it exists. Returns
+	 * null if the list is not found.
+	 * 
+	 * @param listName the list within the class to be returned
+	 * @return list corresponding to the listName
+	 */
 	public List getList(String listName) {
 		for (List l : lists) {
 			if (l.getName().equals(listName)) {
@@ -43,6 +61,10 @@ public class ListStorage {
 		return null; 	
 	}
 	
+	/**
+	 * Loads the list from the storage file into the vector of lists of the
+	 * class.
+	 */
 	public void loadLists() {
 		// load users into the vector
 		Scanner scanner = null;
@@ -89,6 +111,13 @@ public class ListStorage {
 		}
 	}
 	
+	/**
+	 * Returns true if the list is contained in the ListStorage, otherwise,
+	 * it returns false.
+	 * 
+	 * @param listName to check against the lists in the ListStorage
+	 * @return true if the list exists in the class, otherwise false
+	 */
 	public boolean hasList(String listName) {
 		// find the corresponding list
 		for(int i = 0; i < lists.size(); i++) {
@@ -101,6 +130,12 @@ public class ListStorage {
 		return false;
 	}
 	
+	/**
+	 * Deletes the list in the ListStorage corresponding to the listName. If
+	 * the lists is not contained, it modifies nothing.
+	 * 
+	 * @param listName the name of the list to delete 
+	 */
 	public void deleteList(String listName) {
 		// find the corresponding list
 		for(int i = 0; i < lists.size(); i++) {
@@ -112,12 +147,26 @@ public class ListStorage {
 		}
 	}
 	
+	/**
+	 * Adds an empty list with name listName to the ListStorage.
+	 * 
+	 * @param listName the name of the list to add
+	 */
 	public void addList(String listName){
 		List newList = new List(listName);
 		// add list to the vector
 		lists.add(newList);
 	}
 	
+	/**
+	 * Copies a list within the ListStorage with a new name. If the listName 
+	 * does not correspond with any existing list in the ListStorage, then no 
+	 * new list is created.
+	 * 
+	 * @param listName of the list to be duplicated
+	 * @param newListName the name to call the new list that was duplicated 
+	 * from the list corresponding to listName
+	 */
 	public void copyList(String listName, String newListName) {
 		// find the corresponding list
 		for(int i = 0; i < lists.size(); i++) {
@@ -134,31 +183,89 @@ public class ListStorage {
 		}
 	}
 	
+	/**
+	 * Adds an Item item to the list at the given index in the ListStorage's
+	 * vector of lists. 
+	 * 
+	 * @param index of the list to add the item to
+	 * @param item to be added to the list
+	 */
 	public void addItemtoList(int index, Item item) {
 		lists.elementAt(index).addItem(item);
 	}
 	
+	/**
+	 * Creates a new item with attributes itemName, itemQuantity, and 
+	 * storeName and adds it to the list at the given index in the ListStorage's
+	 * vector of lists.
+	 * 
+	 * @param index of the list to add the item to
+	 * @param itemName - name of the item
+	 * @param itemQuantity - quantity of the item
+	 * @param storeName - store at which the item can be found
+	 */
 	public void addItemToList(int index, String itemName, String itemQuantity, String storeName) {
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
 	}
 	
+	/**
+	 * Creates a new item with attributes itemName, itemQuantity, and 
+	 * storeName and adds it to the list at the given index in the ListStorage's
+	 * vector of lists.
+	 * 
+	 * @param index of the list to add the item to
+	 * @param itemName - name of the item
+	 * @param itemQuantity - quantity of the item
+	 * @param storeName - store at which the item can be found
+	 */
 	public void addItemToList(int index, String itemName, int itemQuantity, String storeName) {
 		lists.elementAt(index).addItem(itemName, itemQuantity, storeName);
 	}
 	
+	/**
+	 * Deletes an item from the list at the given index in the ListStorage's
+	 * vector of lists. If the item does not exist in the list, then no item
+	 * is deleted.
+	 * 
+	 * @param index of the list to delete the item from
+	 * @param itemName - name of the item to delete
+	 * @param itemQuantity - quantity of the item to delete
+	 * @param storeName - store at which the item to delete can be found
+	 */
 	public void deleteListItem(int index, String itemName, String itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
 	}
 	
+	/**
+	 * Deletes an item from the list at the given index in the ListStorage's
+	 * vector of lists. If the item does not exist in the list, then no item
+	 * is deleted.
+	 * 
+	 * @param index of the list to delete the item from
+	 * @param itemName - name of the item to delete
+	 * @param itemQuantity - quantity of the item to delete
+	 * @param storeName - store at which the item to delete can be found
+	 */
 	public void deleteListItem(int index, String itemName, int itemQuantity, String storeName) {
 		lists.elementAt(index).removeItem(itemName, itemQuantity, storeName);
 	}
 	
+	/**
+	 * Deletes an Item item from the list at the given index in the 
+	 * ListStorage's vector of lists. If the item does not exist in the list,
+	 * then no item is deleted
+	 * 
+	 * @param index of the list to delete the item from
+	 * @param item to be deleted from the list
+	 */
 	public void deleteListItem(int index, Item item) {
 		lists.elementAt(index).removeItem(item);
 	}
 	
-	// update list storage
+	/**
+	 * Removes the contents of the list storage file and rewrites all of the
+	 * lists into the storage file.
+	 */
 	public void restoreLists() {
 		// remove file's content
 		try {

@@ -33,6 +33,13 @@ public class ItemSearch extends JFrame implements ActionListener {
 	User user;
 	JTextField brandFilter, typeFilter;
 	
+	/**
+	 * Creates the ItemSearch GUI, sets the user and vector of stores, and 
+	 * displays it.
+	 * 
+	 * @param s the vector of stores to be displayed
+	 * @param u the user that is currently searching the items
+	 */
 	public ItemSearch(Vector<Store> s, User u) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Item Search");
@@ -46,6 +53,12 @@ public class ItemSearch extends JFrame implements ActionListener {
 		user = u;
 	}
 	
+	/**
+	 * Adds the button to the vector of buttons that are used to display each 
+	 * store name and allow the user to select a store
+	 * 
+	 * @param s the store to add a button of
+	 */
 	void makeStoreButtons(Store s) {
 		JButton temp = new JButton(s.getName());
 		temp.addActionListener(this);
@@ -53,7 +66,10 @@ public class ItemSearch extends JFrame implements ActionListener {
 		this.add(temp);
 	}
 	
-	// Main search table
+	/**
+	 * Creates and displays the main search table containing the items of
+	 * a certain store.
+	 */
 	private void makeTable() {
 		String[] colNames = {"Brand", "Type", "Extra"};
 		String[][] data = new String[mainStore.getProducts().size()][3];
@@ -70,8 +86,9 @@ public class ItemSearch extends JFrame implements ActionListener {
 		DefaultTableModel model = new DefaultTableModel(data, colNames);
 		sorter = new TableRowSorter<DefaultTableModel>(model);
 		addButtons = new Vector<JButton>();
-		for(int i = 0; i < mainStore.getProducts().size(); i++) 
+		for(int i = 0; i < mainStore.getProducts().size(); i++) { 
 			addButtons.add(new JButton("Add Item"));		
+		}
 		model.addColumn("Add Item", addButtons);
 		
 		table = new JTable(model);		
@@ -85,7 +102,11 @@ public class ItemSearch extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 	
-	// Dialog for adding items
+	/**
+	 * Adds an item to the display of the stores items.
+	 * 
+	 * @param row at which to add the item to
+	 */
 	public void addItem(int row) {
 		final String name = table.getModel().getValueAt(row, 0) + " "
 				+ table.getModel().getValueAt(row, 1) + " "
@@ -125,7 +146,10 @@ public class ItemSearch extends JFrame implements ActionListener {
 		findList.setVisible(true);
 	}
 	
-	// Create the menu to filter items
+	/**
+	 * Creates the menu that contains the filter for easily searching
+	 * through the items of a store.
+	 */
 	public void filterMenu() {
 		Vector<Product> products = mainStore.getProducts();
 		JMenuBar menuBar = new JMenuBar();
@@ -167,7 +191,11 @@ public class ItemSearch extends JFrame implements ActionListener {
 		menuBar.add(filterMenu);
 		setJMenuBar(menuBar);
 	}
-
+	
+	/**
+	 * Contains the handling for the user action of selecting a store to
+	 * search the items from. Displays the table of items.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(storeButtons.contains(e.getSource())) {
@@ -182,7 +210,7 @@ public class ItemSearch extends JFrame implements ActionListener {
 	}
 }
 
-class ButtonColumn extends AbstractCellEditor
+class ButtonColumn extends AbstractCellEditor 
 implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 
 	private static final long serialVersionUID = -3562325159635287876L;
@@ -205,8 +233,7 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	 *  @param action the Action to be invoked when the button is invoked
 	 *  @param column the column to which the button renderer/editor is added
 	 */
-	public ButtonColumn(JTable table, Action action, int column)
-	{
+	public ButtonColumn(JTable table, Action action, int column){
 		this.table = table;
 		this.action = action;
 	
@@ -242,7 +269,10 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 		this.focusBorder = focusBorder;
 		editButton.setBorder( focusBorder );
 	}
-		
+	
+	/**
+	 * TODO
+	 */
 	@Override
 	public Component getTableCellEditorComponent(
 		JTable table, Object value, boolean isSelected, int row, int column){
@@ -263,16 +293,19 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 		return editButton;
 	}
 	
+	/**
+	 * TODO
+	 */
 	@Override
 	public Object getCellEditorValue(){
 		return editorValue;
 	}
 	
-	//
-	// Implement TableCellRenderer interface
-	//
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, 
-												   int row, int column){
+	/**
+	 * Implements the TableCellRenderer interface.
+	 */
+	public Component getTableCellRendererComponent(JTable table, Object value, 
+			boolean isSelected, boolean hasFocus, int row, int column){
 		if (isSelected){
 			renderButton.setForeground(table.getSelectionForeground());
 	 		renderButton.setBackground(table.getSelectionBackground());
@@ -303,16 +336,13 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 		return renderButton;
 	}
 	
-	//
-	// Implement ActionListener interface
-	//
-	/*
-	 * The button has been pressed. Stop editing and invoke the custom Action
+	/**
+	 * Implements the ActionListener interface. When the button is pressed, it
+	 * stops editing and invokes the custom action.
 	 */
 	public void actionPerformed(ActionEvent e){
 		int row = table.convertRowIndexToModel(table.getEditingRow());
 		fireEditingStopped();
-	
 		// invoke the Action
 		ActionEvent event = new ActionEvent(table, ActionEvent.ACTION_PERFORMED, "", row);
 		action.actionPerformed(event);
@@ -324,7 +354,13 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 	/*
 	 *  When the mouse is pressed the editor is invoked. If you then then drag
 	 *  the mouse to another cell before releasing it, the editor is still
-	 *  active. Make sure editing is stopped when the mouse is released.
+	 *  active. So this makes sure editing is stopped when the mouse is released.
+	 */
+	/**
+	 * Implements the MouseListener interface.  When the mouse is pressed the 
+	 * editor is invoked. If you then then drag the mouse to another cell 
+	 * before releasing it, the editor is still active. So this makes sure 
+	 * editing is stopped when the mouse is released.
 	 */
 	public void mousePressed(MouseEvent e){
 		if (table.isEditing() &&  table.getCellEditor() == this) {
@@ -332,15 +368,26 @@ implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener{
 		}
 	}
 	
+	/**
+	 * TODO
+	 */
 	public void mouseReleased(MouseEvent e){
 		if (isButtonColumnEditor &&  table.isEditing()) {
 			table.getCellEditor().stopCellEditing();
 		}
-	
 		isButtonColumnEditor = false;
 	}
 	
+	/**
+	 * Does nothing, must be created for the class to implement MouseListener.
+	 */
 	public void mouseClicked(MouseEvent e) {}
+	/**
+	 * Does nothing, must be created for the class to implement MouseListener.
+	 */
 	public void mouseEntered(MouseEvent e) {}
+	/**
+	 * Does nothing, must be created for the class to implement MouseListener.
+	 */
 	public void mouseExited(MouseEvent e) {}
 }

@@ -26,15 +26,26 @@ public class UserStorage {
 		// user-name,email,password
 		// ... 
 		// user-name,email,password
-	
-	// initialize the vector, map, load existing users into them
+		
+	/**
+	 * Creates the vector of users and the map of passwords and emails. It
+	 * then loads the users into the vector of users from the user storage and
+	 * loads the user information into the password map for logging in users.
+	 */
 	public UserStorage(){
 		users = new Vector<String>();
 		passMap = new HashMap<String, String>();
 		loadUsers();
 	}
 	
-	// loads users and checks if the given user exists
+	/**
+	 * Checks if a user with the given email and password exists. If it does,
+	 * it returns the user. Otherwise, it returns null.
+	 * 
+	 * @param email the email of the user to be looked for
+	 * @param password the password of the user to be looked for
+	 * @return the user if found, null otherwise
+	 */
 	public User getUser(String email, String password) {
 		if(passMap.containsKey(email + password)) {
 			String username = passMap.get(email + password);
@@ -45,7 +56,10 @@ public class UserStorage {
 		}
 	}
 	
-	// load users from the storage file into the vector, map
+	/**
+	 * Loads users from the storage file into the vector of users and the
+	 * map of passwords and emails.
+	 */
 	void loadUsers() {
 		// load users into the vector
 		Scanner scanner = null;
@@ -74,7 +88,12 @@ public class UserStorage {
 		}
 	}
 	
-	// add user to the storage file, vector, and map
+	/**
+	 * Adds user to the user storage, vector of users, and the map of emails
+	 * and passwords.
+	 * 
+	 * @param user
+	 */
 	public void addUser(User user) {
 		// add user to the storage file
 		String userString = "\n" + user.getID() + "," + user.getEmail() + "," + user.getPassword();

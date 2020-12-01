@@ -10,7 +10,12 @@ import constructs.Product;
 public class StoreStorage {
 	Vector<Store> stores;
 	
-	// load stores in from the storage to the Vector
+	/**
+	 * Loads stores in from the storage file to the vector of stores in the
+	 * StoreStorage.
+	 * 
+	 * @param filename the file from which to load the stores from
+	 */
 	public StoreStorage(String filename) {
 		stores = new Vector<Store>();
 		Scanner scanner = null;
@@ -35,6 +40,11 @@ public class StoreStorage {
 		}
 	}
 	
+	/**
+	 * Gets the vector of stores.
+	 * 
+	 * @return a vector of stores contained in the StoreStorage.
+	 */
 	public Vector<Store> getStores(){
 		return stores;
 	}
