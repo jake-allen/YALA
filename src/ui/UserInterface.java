@@ -39,6 +39,24 @@ public class UserInterface{
 
 //====================SYSTEM OPERATIONS (for JUnit)================================
 	/**
+	 * Logs user in
+	 * 
+	 * @param email email of user
+	 * @param password password of user's login
+	 */
+	
+	
+	public static void login(String email, String password) {
+		if (userStorage == null) 
+			userStorage = new UserStorage();
+		if(userStorage.getUser(email, password) != null) {
+			user = userStorage.getUser(email, password);
+			loggedIn = true;
+		}
+	}
+	
+	
+	/**
 	 * Gets lists in user's list storage.
 	 * 
 	 * @return lists in user's list storage
