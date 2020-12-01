@@ -1,8 +1,10 @@
-## Welcome to GitHub Pages
+## Welcome to YALA Project
 
-You can use the [editor on GitHub](https://github.com/jake-allen/YALA/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This is a project created by Jake Allen, Evan Berryman, and Sam Hobbs. You can download the project files from GitHub [here](https://github.com/jake-allen/YALA/archive/master.zip).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+You can see our [issue tracking system](https://trello.com/b/8JTgqSMS/yala). On this we store all of the issues we have completed, the hours each of us have worked, and a general organization of our Iterations and calendar and what we have accomplished so far. 
+
+Our GitHub page can be found [here](https://github.com/jake-allen/YALA).
 
 ### Markdown
 
