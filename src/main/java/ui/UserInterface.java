@@ -420,7 +420,7 @@ public class UserInterface{
 				cl.show(cards, CREATEACCOUNT);
 			}
 		});
-		//SAM'S DEBUG MODE - TODO REMOVE
+		/*
 		JMenuItem debugMenuItem = new JMenuItem("Debug");	
 		debugMenuItem.addActionListener(new ActionListener() {
 			@Override
@@ -433,12 +433,13 @@ public class UserInterface{
 				cl.show(cards, LOGGEDIN);
 			}
 		});
+		*/
 		// add the menu items to the menu
 		accountMenu.add(loginMenuItem);
 		accountMenu.addSeparator();
 		accountMenu.add(createAccountMenuItem);
-		accountMenu.addSeparator();
-		accountMenu.add(debugMenuItem);
+		//accountMenu.addSeparator();
+		//accountMenu.add(debugMenuItem);
 		return menuBar;
 	}
 	
